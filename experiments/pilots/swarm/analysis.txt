@@ -1,0 +1,61 @@
+== PROBE (same persona+comment, shown score varied) ==
+llm/sampled n_pairs=150
+  P(up|+1)=0.547 P(up|0)=0.513 P(up|-1)=0.433 P(up|hidden)=0.500
+  P(dn|+1)=0.187 P(dn|0)=0.213 P(dn|-1)=0.307 P(dn|hidden)=0.220
+  dUp(+1 vs 0): +0.033 [-0.013,+0.080]  dUp(-1 vs 0): -0.080 [-0.133,-0.033]  dDown(-1 vs 0): +0.093 [+0.040,+0.147]  dUp(0 vs hidden): +0.013 [-0.033,+0.060]
+  relative up-vote lift +1 vs 0: +6.5%
+  action entropy (bits): 1.5  frac pairs whose action changes with score: 0.26
+jev/sampled n_pairs=300
+  P(up|+1)=0.433 P(up|0)=0.450 P(up|-1)=0.273 P(up|hidden)=0.497
+  P(dn|+1)=0.207 P(dn|0)=0.210 P(dn|-1)=0.430 P(dn|hidden)=0.190
+  dUp(+1 vs 0): -0.017 [-0.083,+0.047]  dUp(-1 vs 0): -0.177 [-0.240,-0.117]  dDown(-1 vs 0): +0.220 [+0.150,+0.290]  dUp(0 vs hidden): -0.047 [-0.113,+0.017]
+  relative up-vote lift +1 vs 0: -3.7%
+  action entropy (bits): 1.559  frac pairs whose action changes with score: 0.76
+jev/argmax n_pairs=300
+  P(up|+1)=0.543 P(up|0)=0.560 P(up|-1)=0.347 P(up|hidden)=0.630
+  P(dn|+1)=0.173 P(dn|0)=0.160 P(dn|-1)=0.460 P(dn|hidden)=0.117
+  dUp(+1 vs 0): -0.017 [-0.037,+0.000]  dUp(-1 vs 0): -0.213 [-0.260,-0.163]  dDown(-1 vs 0): +0.300 [+0.250,+0.353]  dUp(0 vs hidden): -0.070 [-0.103,-0.040]
+  relative up-vote lift +1 vs 0: -3.0%
+  action entropy (bits): 1.478  frac pairs whose action changes with score: 0.377
+jev/prob n_pairs=300
+  P(up|+1)=0.445 P(up|0)=0.463 P(up|-1)=0.282 P(up|hidden)=0.521
+  P(dn|+1)=0.227 P(dn|0)=0.215 P(dn|-1)=0.421 P(dn|hidden)=0.182
+  dUp(+1 vs 0): -0.019 [-0.023,-0.015]  dUp(-1 vs 0): -0.182 [-0.194,-0.170]  dDown(-1 vs 0): +0.205 [+0.197,+0.215]  dUp(0 vs hidden): -0.058 [-0.064,-0.052]
+  relative up-vote lift +1 vs 0: -4.1%
+
+== DYNAMIC SIM (60 comments, 20/treatment, 2 views/comment/round) ==
+llm_sample rounds=8 decisions=960
+  treat +1: mean final +5.500 [+1.549,+9.100]  organic(final-treat) +4.50  P(final>0)=0.75
+  treat +0: mean final +6.200 [+2.650,+9.300]  organic(final-treat) +6.20  P(final>0)=0.85
+  treat -1: mean final +2.050 [-1.700,+5.900]  organic(final-treat) +3.05  P(final>0)=0.55
+  final(+1)-final(0) = -0.70 [-5.80,+4.25]
+  round-0 up-rate by treat: {1: np.float64(0.5), 0: np.float64(0.55), -1: np.float64(0.3)}  overall up-rate by shown score sign: {1: np.float64(0.686), 0: np.float64(0.42), -1: np.float64(0.147)}
+  mean per-comment action entropy across viewers (bits): 0.966  overall action mix: {'upvote': 479, 'ignore': 277, 'downvote': 204}
+jev_sample rounds=8 decisions=960
+  treat +1: mean final +2.250 [-1.100,+5.650]  organic(final-treat) +1.25  P(final>0)=0.55
+  treat +0: mean final +5.600 [+2.400,+8.650]  organic(final-treat) +5.60  P(final>0)=0.80
+  treat -1: mean final -5.350 [-8.100,-2.450]  organic(final-treat) -4.35  P(final>0)=0.20
+  final(+1)-final(0) = -3.35 [-7.75,+1.25]
+  round-0 up-rate by treat: {1: np.float64(0.3), 0: np.float64(0.625), -1: np.float64(0.225)}  overall up-rate by shown score sign: {1: np.float64(0.573), 0: np.float64(0.392), -1: np.float64(0.133)}
+  mean per-comment action entropy across viewers (bits): 1.156  overall action mix: {'upvote': 359, 'downvote': 309, 'ignore': 292}
+jev_sample rounds=25 decisions=3000
+  treat +1: mean final +7.800 [-3.604,+19.250]  organic(final-treat) +6.80  P(final>0)=0.60
+  treat +0: mean final +16.750 [+6.149,+26.151]  organic(final-treat) +16.75  P(final>0)=0.80
+  treat -1: mean final -10.650 [-20.301,+0.401]  organic(final-treat) -9.65  P(final>0)=0.30
+  final(+1)-final(0) = -8.95 [-23.65,+7.25]
+  round-0 up-rate by treat: {1: np.float64(0.3), 0: np.float64(0.625), -1: np.float64(0.225)}  overall up-rate by shown score sign: {1: np.float64(0.646), 0: np.float64(0.418), -1: np.float64(0.117)}
+  mean per-comment action entropy across viewers (bits): 1.174  overall action mix: {'upvote': 1233, 'downvote': 955, 'ignore': 812}
+jev_argmax rounds=8 decisions=960
+  treat +1: mean final +5.600 [+0.850,+9.900]  organic(final-treat) +4.60  P(final>0)=0.65
+  treat +0: mean final +7.700 [+3.099,+11.700]  organic(final-treat) +7.70  P(final>0)=0.80
+  treat -1: mean final -4.400 [-9.500,+1.350]  organic(final-treat) -3.40  P(final>0)=0.35
+  final(+1)-final(0) = -2.10 [-8.30,+4.05]
+  round-0 up-rate by treat: {1: np.float64(0.475), 0: np.float64(0.6), -1: np.float64(0.325)}  overall up-rate by shown score sign: {1: np.float64(0.744), 0: np.float64(0.479), -1: np.float64(0.102)}
+  mean per-comment action entropy across viewers (bits): 0.679  overall action mix: {'upvote': 482, 'downvote': 304, 'ignore': 174}
+jev_argmax rounds=25 decisions=3000
+  treat +1: mean final +14.000 [-2.150,+28.651]  organic(final-treat) +13.00  P(final>0)=0.65
+  treat +0: mean final +23.800 [+10.200,+36.400]  organic(final-treat) +23.80  P(final>0)=0.85
+  treat -1: mean final -13.400 [-30.251,+4.404]  organic(final-treat) -12.40  P(final>0)=0.35
+  final(+1)-final(0) = -9.80 [-29.60,+10.65]
+  round-0 up-rate by treat: {1: np.float64(0.475), 0: np.float64(0.6), -1: np.float64(0.325)}  overall up-rate by shown score sign: {1: np.float64(0.794), 0: np.float64(0.471), -1: np.float64(0.043)}
+  mean per-comment action entropy across viewers (bits): 0.649  overall action mix: {'upvote': 1522, 'downvote': 1034, 'ignore': 444}

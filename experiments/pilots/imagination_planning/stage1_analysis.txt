@@ -1,0 +1,45 @@
+
+### effect
+| predictor | n | base rate | AUROC | Brier | ECE |
+|---|---|---|---|---|---|
+| Jev (all) | 1051 | 0.72 | 0.902 | 0.122 | 0.183 |
+| prior: verb (LOGO) | 1051 | 0.72 | 0.742 | 0.133 | 0.042 |
+| prior: verb+receptacle (LOGO) | 1051 | 0.72 | 0.782 | 0.135 | 0.069 |
+| rule: action in admissible list | 1051 | 0.72 | 1.000 | 0.000 | 0.020 |
+| Jev (LLM subsample) | 300 | 0.72 | 0.925 | 0.120 | 0.168 |
+| qwen3-30b LLM (subsample) | 300 | 0.72 | 0.603 | 0.369 | 0.412 |
+
+### reveal
+| predictor | n | base rate | AUROC | Brier | ECE |
+|---|---|---|---|---|---|
+| Jev (all) | 1051 | 0.08 | 0.868 | 0.079 | 0.165 |
+| prior: verb (LOGO) | 1051 | 0.08 | 0.680 | 0.059 | 0.011 |
+| prior: verb+receptacle (LOGO) | 1051 | 0.08 | 0.795 | 0.056 | 0.017 |
+| Jev (LLM subsample) | 300 | 0.08 | 0.913 | 0.074 | 0.170 |
+| qwen3-30b LLM (subsample) | 300 | 0.08 | 0.740 | 0.107 | 0.154 |
+
+### empty
+| predictor | n | base rate | AUROC | Brier | ECE |
+|---|---|---|---|---|---|
+| Jev (all) | 1051 | 0.17 | 0.735 | 0.165 | 0.193 |
+| prior: verb (LOGO) | 1051 | 0.17 | 0.526 | 0.125 | 0.050 |
+| prior: verb+receptacle (LOGO) | 1051 | 0.17 | 0.810 | 0.104 | 0.021 |
+| Jev (LLM subsample) | 300 | 0.16 | 0.757 | 0.157 | 0.192 |
+| qwen3-30b LLM (subsample) | 300 | 0.16 | 0.606 | 0.375 | 0.390 |
+
+### reveal, only go/open actions (hidden-state prediction)
+| predictor | n | base rate | AUROC | Brier | ECE |
+|---|---|---|---|---|---|
+| Jev | 772 | 0.04 | 0.749 | 0.065 | 0.152 |
+| Jev (LLM subsample) | 221 | 0.03 | 0.766 | 0.062 | 0.176 |
+| qwen3-30b (subsample) | 221 | 0.03 | 0.386 | 0.076 | 0.139 |
+
+Jev reliability [effect] (bin: n, mean pred, freq): 0.0-0.2: 121, 0.16, 0.02; 0.2-0.4: 126, 0.28, 0.23; 0.4-0.6: 160, 0.52, 0.81; 0.6-0.8: 466, 0.71, 0.92; 0.8-1.0: 178, 0.84, 0.96
+
+Jev reliability [reveal] (bin: n, mean pred, freq): 0.0-0.2: 579, 0.13, 0.02; 0.2-0.4: 317, 0.26, 0.05; 0.4-0.6: 87, 0.46, 0.15; 0.6-0.8: 38, 0.69, 0.50; 0.8-1.0: 30, 0.89, 0.70
+
+Surprise->failure, first 5 steps (n_eps=45, fail=36): AUROC Jev mean surprise=0.531; AUROC raw 'Nothing happens' rate=0.576
+
+Surprise->failure, first 10 steps (n_eps=45, fail=36): AUROC Jev mean surprise=0.559; AUROC raw 'Nothing happens' rate=0.631
+
+Surprise->failure, first 25 steps (n_eps=45, fail=36): AUROC Jev mean surprise=0.559; AUROC raw 'Nothing happens' rate=0.705
