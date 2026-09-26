@@ -1,0 +1,638 @@
+{
+ "pairing": "belief_vs_baseline",
+ "A": "belief",
+ "B": "baseline",
+ "game": "LiarsDice-v0",
+ "idx": 3,
+ "a_pid": 1,
+ "outcome": "B_win",
+ "payoff_A": -1,
+ "rewards": {
+  "1": -1.0,
+  "0": 1.0
+ },
+ "steps": 20,
+ "env_invalid_terminations": 0,
+ "any_forced": false,
+ "stats": {
+  "A": {
+   "turns": 10,
+   "illegal_first": 0,
+   "retries": 0,
+   "forced": 0,
+   "tokens": [
+    25109,
+    4278
+   ]
+  },
+  "B": {
+   "turns": 10,
+   "illegal_first": 0,
+   "retries": 0,
+   "forced": 0,
+   "tokens": [
+    8337,
+    1293
+   ]
+  }
+ },
+ "reason": "Player 0 wins! Final ranking: [1, 0]",
+ "spent_usd_after": 0.17079228885000003,
+ "turns": [
+  {
+   "step": 1,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [4, 5, 3, 2, 6]. Dice remaining: Player 0: 5; Player 1: 5. There is NO current bid this round: you must open with [Bid: quantity, face] (face 1-6). [Call] is not allowed now.",
+   "obs_tail": "\n[GAME] You are Player 0 in an 2-player Liar's Dice game.\nRules:\n- On your turn, you may either:\n  1) Make a new bid with a higher quantity or higher face (or both) than the current bid; i.e. '[Bid: 3, 4]',\n  2) Call the last bid by typing '[Call]'.\n\nIf you call:\n  - If the actual count of that face value among all dice is less than the bid, the last bidder loses one die.\n  - Otherwise, the caller loses one die.\nA player who reaches 0 dice is eliminated. The last remaining player wins.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 5; \tPlayer 1: 5\nYour current Dice are: 4, 5, 3, 2, 6",
+   "raw": "I have a 4, 5, 3, 2, 6. The most common face is unique, so I should start with a moderate bid. I'll bid 2 of a face that appears in my hand, like 2 fives, to be safe and not too aggressive. [Bid: 2, 5]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 2, 5]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 2,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [4, 4, 5, 4, 4]. Dice remaining: Player 0: 5; Player 1: 5. Current bid: 2 of face 5 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 2, f >= 5, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": "Dice game.\nRules:\n- On your turn, you may either:\n  1) Make a new bid with a higher quantity or higher face (or both) than the current bid; i.e. '[Bid: 3, 4]',\n  2) Call the last bid by typing '[Call]'.\n\nIf you call:\n  - If the actual count of that face value among all dice is less than the bid, the last bidder loses one die.\n  - Otherwise, the caller loses one die.\nA player who reaches 0 dice is eliminated. The last remaining player wins.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 5; \tPlayer 1: 5\nYour current Dice are: 4, 4, 5, 4, 4\n[Player 0] [Bid: 2, 5]\n[GAME] Player 0 bids 2 of face 5.",
+   "raw": "I have one 5 in my hand, and my opponent bid 2 fives. Given that I have a 5 and the opponent likely has at least one, it's plausible they're telling the truth. However, they might be bluffing. To apply pressure and test their hand, I'll raise the bid to 3 fives\u2014this is a reasonable increase, leveraging my own 5 and the possibility they have more. If they don\u2019t have two fives, they\u2019ll be forced to call or risk losing a die. [Bid: 3, 5]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "likely holds at least 1 or 2 fives, given the bid of 2 fives; possible additional fives or other high-value dice",
+    "opponent_strategy_guess": "aggressive with moderate bluffing tendency; may bid high early to pressure opponent",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     }
+    ],
+    "my_plan": "Bid 3 of face 5 to increase pressure and leverage my own 5, or call if I believe the bid is unlikely to be met."
+   },
+   "action": "[Bid: 3, 5]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 3,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [4, 5, 3, 2, 6]. Dice remaining: Player 0: 5; Player 1: 5. Current bid: 3 of face 5 (by Player 1). Legal actions: [Call], or [Bid: q, f] with q >= 3, f >= 5, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": "ke a new bid with a higher quantity or higher face (or both) than the current bid; i.e. '[Bid: 3, 4]',\n  2) Call the last bid by typing '[Call]'.\n\nIf you call:\n  - If the actual count of that face value among all dice is less than the bid, the last bidder loses one die.\n  - Otherwise, the caller loses one die.\nA player who reaches 0 dice is eliminated. The last remaining player wins.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 5; \tPlayer 1: 5\nYour current Dice are: 4, 5, 3, 2, 6\n[Player 0] [Bid: 2, 5]\n[GAME] Player 0 bids 2 of face 5.\n[Player 1] [Bid: 3, 5]\n[GAME] Player 1 bids 3 of face 5.",
+   "raw": "I have one 5 in my hand, and Player 1 has bid 3 of face 5. There are 10 dice total, so even if I had no 5s, Player 1\u2019s bid could still be true. But I need to decide whether to call or raise. Raising to 4 of 5 would be risky since I only have one 5. Raising to 3 of 6 is possible, but I have one 6. However, 3 of 6 is a valid bid (same quantity, higher face). It\u2019s a bluff, but it might pressure Player 1. I\u2019ll go with that. [Bid: 3, 6]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 3, 6]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 4,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [4, 4, 5, 4, 4]. Dice remaining: Player 0: 5; Player 1: 5. Current bid: 3 of face 6 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 3, f >= 6, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": "th) than the current bid; i.e. '[Bid: 3, 4]',\n  2) Call the last bid by typing '[Call]'.\n\nIf you call:\n  - If the actual count of that face value among all dice is less than the bid, the last bidder loses one die.\n  - Otherwise, the caller loses one die.\nA player who reaches 0 dice is eliminated. The last remaining player wins.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 5; \tPlayer 1: 5\nYour current Dice are: 4, 4, 5, 4, 4\n[Player 0] [Bid: 2, 5]\n[GAME] Player 0 bids 2 of face 5.\n[Player 1] [Bid: 3, 5]\n[GAME] Player 1 bids 3 of face 5.\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.",
+   "raw": "I have no sixes and only one 5, so it's highly unlikely Player 0 has 3 sixes, especially given their aggressive pattern. Calling now exploits their probable bluff and avoids risking a higher bid. My plan to call stands. [Call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "likely holds at least 1 six, possibly 2 or more; given the bid of 3 sixes, and Player 1's prior bid of 3 fives, suggests Player 0 may have strong high-value dice or is bluffing with low-value dice",
+    "opponent_strategy_guess": "aggressive and risk-taking; frequently raises bids to high faces, possibly bluffing to force opponent into calling; may be testing my willingness to call",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     }
+    ],
+    "my_plan": "Call the bid: 3 of face 6, as I have no sixes and only one 5, making it unlikely Player 0 has 3 sixes; this minimizes risk and exploits potential bluff."
+   },
+   "action": "[Call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 5,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [4, 1, 6, 5]. Dice remaining: Player 0: 4; Player 1: 5. There is NO current bid this round: you must open with [Bid: quantity, face] (face 1-6). [Call] is not allowed now.",
+   "obs_tail": "ller loses one die.\nA player who reaches 0 dice is eliminated. The last remaining player wins.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 5; \tPlayer 1: 5\nYour current Dice are: 4, 5, 3, 2, 6\n[Player 0] [Bid: 2, 5]\n[GAME] Player 0 bids 2 of face 5.\n[Player 1] [Bid: 3, 5]\n[GAME] Player 1 bids 3 of face 5.\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 5\nYour current Dice are: 4, 1, 6, 5",
+   "raw": "I have a 6 and a 5, and I know Player 1 has 5 dice. To be aggressive but reasonable, I can bid 3 of a face I have, like 6, to pressure Player 1. Since I have one 6, and there are 5 dice total, it's plausible there could be more. Bidding 3 of 6 is a strong move to keep pressure. [Bid: 3, 6]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 3, 6]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 6,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [5, 6, 6, 5, 6]. Dice remaining: Player 0: 4; Player 1: 5. Current bid: 3 of face 6 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 3, f >= 6, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": "d. The last remaining player wins.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 5; \tPlayer 1: 5\nYour current Dice are: 4, 4, 5, 4, 4\n[Player 0] [Bid: 2, 5]\n[GAME] Player 0 bids 2 of face 5.\n[Player 1] [Bid: 3, 5]\n[GAME] Player 1 bids 3 of face 5.\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 5\nYour current Dice are: 5, 6, 6, 5, 6\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.",
+   "raw": "I hold three 6s, and Player 0 bid 3 of 6, which is plausible but risky given they only had 4 dice and previously bid 3 of 6 (which was false). Their pattern suggests bluffing. Since I have strong evidence (three 6s) and their bid is just at the minimum needed, calling is safe. If they don\u2019t have three 6s, they lose a die. I\u2019ll call now to capitalize on their likely bluff. [Call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "likely holds at least 2 sixes (since they bid 3 of 6, and only 1 six was revealed in the previous round), possibly 3 or more; may have 1-2 fives or other faces to support the bid",
+    "opponent_strategy_guess": "aggressive and risk-taking; frequently raises bids to high faces, possibly bluffing to force opponent into calling; may be testing my willingness to call",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "1",
+      "status": "false"
+     }
+    ],
+    "my_plan": "Call the bid: Player 0's bid of 3 of 6 is likely a bluff, as only 1 six was revealed in the prior round and I hold 3 sixes. With 4 dice remaining, they likely don't have 3 sixes. Calling now maximizes my chance of forcing them to lose a die."
+   },
+   "action": "[Call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 7,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [4, 6, 4, 4]. Dice remaining: Player 0: 4; Player 1: 4. There is NO current bid this round: you must open with [Bid: quantity, face] (face 1-6). [Call] is not allowed now.",
+   "obs_tail": "] Player 1 bids 3 of face 5.\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 5\nYour current Dice are: 4, 1, 6, 5\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 4, which is >= 3.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 4\nYour current Dice are: 4, 6, 4, 4",
+   "raw": "I have three 4s and one 6. The previous bid was 3 of 6, so I can raise either quantity or face value. To be safe but aggressive, I'll bid 4 of 4, which is higher in quantity and a lower face than 6, but still a valid increase since quantity is higher. This puts pressure on Player 1 while staying within reasonable odds.\n\n[Bid: 4, 4]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 4, 4]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 8,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [2, 2, 4, 2]. Dice remaining: Player 0: 4; Player 1: 4. Current bid: 4 of face 4 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 4, f >= 4, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": "layer 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 5\nYour current Dice are: 5, 6, 6, 5, 6\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 4, which is >= 3.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 4\nYour current Dice are: 2, 2, 4, 2\n[Player 0] [Bid: 4, 4]\n[GAME] Player 0 bids 4 of face 4.",
+   "raw": "I have no 4s in my hand, and the opponent has a history of bluffing (e.g., 3 of 6 was false). They bid 4 of 4 with 4 dice, which is highly unlikely to be true unless they hold all four 4s. Given their aggressive bluffing pattern, they are probably bluffing. Calling now risks losing if they actually have four 4s, but the odds are low. Since I have no 4s and they\u2019ve shown a tendency to overbid, calling is the best move to exploit their bluffing strategy. [Call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "likely holds at least 1-2 fours, possibly more; given they bid 4 of 4 with 4 dice, they may have 2+ fours or be bluffing with low-value dice; their previous bid of 3 of 6 was false, suggesting bluffing tendency",
+    "opponent_strategy_guess": "aggressive and bluff-heavy; frequently bids high quantities or faces, especially when holding few dice; likely to bluff to pressure opponent into calling; may be testing my calling threshold",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "1",
+      "status": "false"
+     },
+     {
+      "bid": "4, 4",
+      "revealed": "unknown",
+      "status": "pending"
+     }
+    ],
+    "my_plan": "Call the bid: if opponent has 4 or more 4s, they win; if not, I win. Given their history of bluffing (3 of 6 was false), and I have no 4s, it's likely they don't have 4 fours. Call to eliminate them if bluffing."
+   },
+   "action": "[Call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 9,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [6, 5, 1, 3]. Dice remaining: Player 0: 4; Player 1: 3. There is NO current bid this round: you must open with [Bid: quantity, face] (face 1-6). [Call] is not allowed now.",
+   "obs_tail": "r 1: 5\nYour current Dice are: 4, 1, 6, 5\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 4, which is >= 3.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 4\nYour current Dice are: 4, 6, 4, 4\n[Player 0] [Bid: 4, 4]\n[GAME] Player 0 bids 4 of face 4.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 4 is 4, which is >= 4.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 3\nYour current Dice are: 6, 5, 1, 3",
+   "raw": "I have four dice: 6, 5, 1, 3. The current highest bid is 4 of face 4, but since it's a new round, I must open a bid. I should bid something that is plausible but pressures Player 1. I have no 4s, but I have a 6, which could be used to bluff. A bid of 4 of face 6 is risky but possible. Alternatively, I can bid 3 of face 6, which is safer. Since I have one 6, I could bid 3 of face 6 to pressure Player 1. That\u2019s a reasonable opening bid. [Bid: 3, 6]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 3, 6]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 10,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [1, 3, 4]. Dice remaining: Player 0: 4; Player 1: 3. Current bid: 3 of face 6 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 3, f >= 6, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": "id: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 4, which is >= 3.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 4\nYour current Dice are: 2, 2, 4, 2\n[Player 0] [Bid: 4, 4]\n[GAME] Player 0 bids 4 of face 4.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 4 is 4, which is >= 4.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 3\nYour current Dice are: 1, 3, 4\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.",
+   "raw": "Player 0's bid of 3 of 6 is high risk with only 3 dice left. I have no sixes, and even if Player 0 has 2-3, the probability of exactly 3 sixes is low. Their history shows frequent bluffing (e.g., previous 3,6 false), and they're likely testing my calling threshold. Calling now exploits their aggression and risks losing only one die, while potentially eliminating them. My plan to call aligns with the evidence.\n\n[Call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "likely holds at least 1-2 sixes; bid of 3 of 6 suggests confidence in high count, but could be bluffing given past tendency to overbid; with 4 dice remaining, 3 sixes is plausible but not guaranteed",
+    "opponent_strategy_guess": "aggressive and bluff-heavy; frequently bids high quantities or faces, especially when holding few dice; likely to bluff to pressure opponent into calling; may be testing my calling threshold",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "1",
+      "status": "false"
+     },
+     {
+      "bid": "4, 4",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "4",
+      "status": "true"
+     }
+    ],
+    "my_plan": "Call: opponent's bid of 3 of 6 is risky with only 3 dice left; I have no sixes, and even if opponent has 2-3, it's uncertain. Given their history of bluffing (e.g., 3,6 false), and my low risk of losing a die (I have 3 dice), calling is optimal to exploit potential bluff."
+   },
+   "action": "[Call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 11,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [4, 1, 1]. Dice remaining: Player 0: 3; Player 1: 3. There is NO current bid this round: you must open with [Bid: quantity, face] (face 1-6). [Call] is not allowed now.",
+   "obs_tail": "ur current Dice are: 4, 6, 4, 4\n[Player 0] [Bid: 4, 4]\n[GAME] Player 0 bids 4 of face 4.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 4 is 4, which is >= 4.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 3\nYour current Dice are: 6, 5, 1, 3\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 3; \tPlayer 1: 3\nYour current Dice are: 4, 1, 1",
+   "raw": "I have three dice: 4, 1, 1. I need to open a bid. Since I have two 1s, I can bid a higher quantity of 1s or a higher face. Bidding 2 of face 1 is safe and plausible, but I can go higher. I\u2019ll bid 3 of face 1, as I have two 1s and the opponent might have at least one, making it a reasonable bid. [Bid: 3, 1]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 3, 1]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 12,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [2, 2, 4]. Dice remaining: Player 0: 3; Player 1: 3. Current bid: 3 of face 1 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 3, f >= 1, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": "\n[GAME] Player 0 bids 4 of face 4.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 4 is 4, which is >= 4.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 4; \tPlayer 1: 3\nYour current Dice are: 1, 3, 4\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 3; \tPlayer 1: 3\nYour current Dice are: 2, 2, 4\n[Player 0] [Bid: 3, 1]\n[GAME] Player 0 bids 3 of face 1.",
+   "raw": "Player 0 has only 3 dice and bid 3 of face 1, which means they must have all three 1s to make the bid true. But their previous bids were often bluffs, and the belief block strongly suggests they are bluffing here. My hand has no 1s, and the likelihood of them holding three 1s is very low. Calling now is optimal to exploit their aggressive bluffing pattern and avoid risking a higher bid. [Call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "likely holds 0 or 1 dice showing 1, given that they bid 3 of face 1 with only 3 dice remaining; high chance they are bluffing since their hand must include at least 3 ones to make the bid true, but they only have 3 dice total and may have few or no ones",
+    "opponent_strategy_guess": "aggressive and bluff-heavy; frequently bids high quantities or faces, especially when holding few dice; likely to bluff to pressure opponent into calling; may be testing my calling threshold",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "1",
+      "status": "false"
+     },
+     {
+      "bid": "4, 4",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "4",
+      "status": "true"
+     },
+     {
+      "bid": "3, 1",
+      "revealed": "0 or 1",
+      "status": "false"
+     }
+    ],
+    "my_plan": "Call the bid: Player 0's bid of 3 of face 1 is highly likely a bluff given their limited dice and lack of evidence for three 1s; calling now preserves my dice and exploits their aggressive bluffing pattern."
+   },
+   "action": "[Call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 13,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [3, 1]. Dice remaining: Player 0: 2; Player 1: 3. There is NO current bid this round: you must open with [Bid: quantity, face] (face 1-6). [Call] is not allowed now.",
+   "obs_tail": "rent Dice are: 6, 5, 1, 3\n[Player 0] [Bid: 3, 6]\n[GAME] Player 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 3; \tPlayer 1: 3\nYour current Dice are: 4, 1, 1\n[Player 0] [Bid: 3, 1]\n[GAME] Player 0 bids 3 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 2; \tPlayer 1: 3\nYour current Dice are: 3, 1",
+   "raw": "I have two dice: 3 and 1. Player 1 has three dice. I need to open a bid. Since I have a 1, I can bid on face 1. I can bid 1 of face 1, but that\u2019s low and likely to be called. To be more aggressive, I can bid 2 of face 1, since I have one 1 and could reasonably expect Player 1 to have at least one more. Alternatively, I could bid 2 of face 3, since I have a 3. But bidding on face 1 with quantity 2 is a strong move because it\u2019s a high quantity for a low face, and I have a chance of success. I\u2019ll go with [Bid: 2, 1].\n\n[Bid: 2, 1]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 2, 1]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 14,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [3, 4, 1]. Dice remaining: Player 0: 2; Player 1: 3. Current bid: 2 of face 1 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 2, f >= 1, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": "er 0 bids 3 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 3; \tPlayer 1: 3\nYour current Dice are: 2, 2, 4\n[Player 0] [Bid: 3, 1]\n[GAME] Player 0 bids 3 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 2; \tPlayer 1: 3\nYour current Dice are: 3, 4, 1\n[Player 0] [Bid: 2, 1]\n[GAME] Player 0 bids 2 of face 1.",
+   "raw": "Player 0 has repeatedly bid high on face 1 and 6, often with little support, and has been caught bluffing before. My dice include one 1, and the opponent has only 2 dice left. The chance they hold two 1s is low. Given their aggressive bluffing pattern, this bid is likely a bluff. Calling is safe and exploits their tendency to overbid. [Call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "Player 0 likely holds 1 or 2 dice showing 1, given their repeated high bids on face 1 and 6; they may have 1-2 ones and possibly a 6 or other low face, but no clear evidence of multiple 1s; their current bid of 2 of face 1 suggests they believe they have at least two 1s or are bluffing.",
+    "opponent_strategy_guess": "highly aggressive and bluff-oriented; consistently bids high quantities or extreme faces (like 6 or 1) even when holding few dice; appears to be testing my calling tolerance and may be bluffing frequently to force errors; shows pattern of overbidding on low-probability faces.",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "1",
+      "status": "false"
+     },
+     {
+      "bid": "4, 4",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "4",
+      "status": "true"
+     },
+     {
+      "bid": "3, 1",
+      "revealed": "0 or 1",
+      "status": "false"
+     },
+     {
+      "bid": "2, 1",
+      "revealed": "unknown",
+      "status": "pending"
+     }
+    ],
+    "my_plan": "Call: Given Player 0's history of bluffing on face 1 (e.g., bid 3,1 with only 0-1 actual ones), and my own dice (3,4,1) showing only one 1, the probability of them having two 1s is low. Calling now is likely correct and risks losing only one die if wrong, but their pattern suggests they're bluffing again."
+   },
+   "action": "[Call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 15,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [5, 6]. Dice remaining: Player 0: 2; Player 1: 2. There is NO current bid this round: you must open with [Bid: quantity, face] (face 1-6). [Call] is not allowed now.",
+   "obs_tail": "ayer 1: 3\nYour current Dice are: 4, 1, 1\n[Player 0] [Bid: 3, 1]\n[GAME] Player 0 bids 3 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 2; \tPlayer 1: 3\nYour current Dice are: 3, 1\n[Player 0] [Bid: 2, 1]\n[GAME] Player 0 bids 2 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is >= 2.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 2; \tPlayer 1: 2\nYour current Dice are: 5, 6",
+   "raw": "I have two dice: 5 and 6. Player 1 has two dice, but I don\u2019t know their values. To maximize my chances, I should bid something that\u2019s plausible but pressures Player 1. A bid of 2 of face 6 is risky since I only have one 6, but it\u2019s possible they have one. Alternatively, bidding 2 of face 5 is safer since I have one 5 and they might have one. But to be aggressive and force a call, I\u2019ll bid 2 of face 6, hoping they don\u2019t have two 6s. \n\n[Bid: 2, 6]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 2, 6]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 16,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [2, 4]. Dice remaining: Player 0: 2; Player 1: 2. Current bid: 2 of face 6 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 2, f >= 6, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": " 1]\n[GAME] Player 0 bids 3 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is LESS than 3.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 2; \tPlayer 1: 3\nYour current Dice are: 3, 4, 1\n[Player 0] [Bid: 2, 1]\n[GAME] Player 0 bids 2 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is >= 2.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 2; \tPlayer 1: 2\nYour current Dice are: 2, 4\n[Player 0] [Bid: 2, 6]\n[GAME] Player 0 bids 2 of face 6.",
+   "raw": "Player 0 has only 2 dice and bid 2 of face 6, which is extremely risky if they don\u2019t have both 6s. Given their history of bluffing on 6s (e.g., previous 3 of 6 with only 1 actual 6), and that they\u2019ve consistently targeted low-probability faces, this is almost certainly a bluff. I have no 6s, and the odds of them holding two 6s with only 2 dice are low\u2014especially given their aggressive bluffing pattern. Calling now exploits their tendency to overbid. [Call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "Player 0 likely holds at least one 6 (to justify the bid of 2 of 6), but possibly only one; given their history of bluffing on extreme faces (1 and 6), and that they bid 2 of 6 with only 2 dice, they may be bluffing. Their remaining dice are 2, so they could have 0, 1, or 2 sixes. Most likely: one 6, one non-6.",
+    "opponent_strategy_guess": "aggressive and bluff-heavy; consistently overbids on low-probability faces (1 and 6) to pressure opponent into calling; appears to be testing my calling threshold and willing to risk losing dice to maintain pressure; shows pattern of bidding high quantities on rare faces even with few dice.",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "1",
+      "status": "false"
+     },
+     {
+      "bid": "4, 4",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "4",
+      "status": "true"
+     },
+     {
+      "bid": "3, 1",
+      "revealed": "0 or 1",
+      "status": "false"
+     },
+     {
+      "bid": "2, 1",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "2, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     }
+    ],
+    "my_plan": "Call: The bid is 2 of 6, and I have no 6s. Given Player 0's history of bluffing on 6s (e.g., previous 3 of 6 with only 1 actual 6), and that they only have 2 dice, it's highly likely they are bluffing. Calling now risks losing a die if they have two 6s, but the odds are low. Given their pattern, this is a strong bluff opportunity. I will call to exploit their aggressive bluffing tendency."
+   },
+   "action": "[Call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 17,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [1]. Dice remaining: Player 0: 1; Player 1: 2. There is NO current bid this round: you must open with [Bid: quantity, face] (face 1-6). [Call] is not allowed now.",
+   "obs_tail": "2; \tPlayer 1: 3\nYour current Dice are: 3, 1\n[Player 0] [Bid: 2, 1]\n[GAME] Player 0 bids 2 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is >= 2.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 2; \tPlayer 1: 2\nYour current Dice are: 5, 6\n[Player 0] [Bid: 2, 6]\n[GAME] Player 0 bids 2 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 2.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 1; \tPlayer 1: 2\nYour current Dice are: 1",
+   "raw": "I have only one die showing a 1. To maximize my chances, I should bid something that\u2019s plausible but hard for Player 1 to call. Bidding 2 of face 1 is risky since I only have one 1, but it might force Player 1 to fold if they don\u2019t have many 1s. Alternatively, bidding 1 of face 6 is safe since I have no 6s, but that\u2019s weak. The best move is to bid 2 of face 1, hoping Player 1 has few 1s and will avoid calling. [Bid: 2, 1]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 2, 1]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 18,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [3, 1]. Dice remaining: Player 0: 1; Player 1: 2. Current bid: 2 of face 1 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 2, f >= 1, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": " 2, 1]\n[GAME] Player 0 bids 2 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is >= 2.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 2; \tPlayer 1: 2\nYour current Dice are: 2, 4\n[Player 0] [Bid: 2, 6]\n[GAME] Player 0 bids 2 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 2.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 1; \tPlayer 1: 2\nYour current Dice are: 3, 1\n[Player 0] [Bid: 2, 1]\n[GAME] Player 0 bids 2 of face 1.",
+   "raw": "The bid is 2 of face 1, but I only have 2 dice and Player 0 has 1 die remaining. Even if Player 0 holds a 1, they cannot have 2 ones. The bid is mathematically impossible. Therefore, Player 0 is bluffing. Calling now will eliminate them with no risk to me, as I have 2 dice and can afford to lose one. This is a guaranteed win if I call. [Call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "Player 0 has 1 die remaining; likely holds a 1, given their repeated bids on face 1 and the fact that they bid 2 of 1 despite only having 1 die\u2014suggesting they are bluffing or holding a 1. The bid is impossible to be true (only 1 die, can't have 2 ones), so they must be bluffing.",
+    "opponent_strategy_guess": "highly aggressive bluffing on low-probability faces (especially 1 and 6), especially when down to few dice; uses high bids to force calls and eliminate opponent dice; appears to be testing my willingness to call with minimal risk.",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "1",
+      "status": "false"
+     },
+     {
+      "bid": "4, 4",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "4",
+      "status": "true"
+     },
+     {
+      "bid": "3, 1",
+      "revealed": "0 or 1",
+      "status": "false"
+     },
+     {
+      "bid": "2, 1",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "2, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "2, 1",
+      "revealed": "0",
+      "status": "false"
+     }
+    ],
+    "my_plan": "Call the bid. The bid of 2 of face 1 is impossible with only 1 die, so Player 0 must be bluffing. Calling will eliminate them if correct, and even if wrong (which is impossible here), I only lose 1 die\u2014my current dice count is 2, so I can afford it. This is a high-confidence call to end the game."
+   },
+   "action": "[Call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 19,
+   "pid": 0,
+   "arm": "baseline",
+   "legal": "Your dice: [5]. Dice remaining: Player 0: 1; Player 1: 1. There is NO current bid this round: you must open with [Bid: quantity, face] (face 1-6). [Call] is not allowed now.",
+   "obs_tail": "0: 2; \tPlayer 1: 2\nYour current Dice are: 5, 6\n[Player 0] [Bid: 2, 6]\n[GAME] Player 0 bids 2 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 2.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 1; \tPlayer 1: 2\nYour current Dice are: 1\n[Player 0] [Bid: 2, 1]\n[GAME] Player 0 bids 2 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is >= 2.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 1; \tPlayer 1: 1\nYour current Dice are: 5",
+   "raw": "I have one die showing a 5. Player 1 also has one die. To maximize my chance, I should bid something that\u2019s plausible but hard for them to call. Bidding 2 of face 1 is risky since I don\u2019t have any 1s, but it might force a call. However, since I only have a 5, the safest high-probability bid is 1 of face 5, but that\u2019s not higher than nothing. The game requires a new bid with higher quantity or face. Since no bid exists, I must start with a valid bid. I can bid 1 of face 5 (same as my die), but that\u2019s not higher than nothing\u2014wait, actually, any bid is allowed to start. But the rules say \"higher quantity or higher face\" only applies when there's a current bid. Since this is the first bid, I can bid anything. So I\u2019ll bid 1 of face 5, which matches my die and is reasonable.\n\n[1, 5]",
+   "thought": null,
+   "belief": null,
+   "action": "[Bid: 1, 5]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 20,
+   "pid": 1,
+   "arm": "belief",
+   "legal": "Your dice: [1]. Dice remaining: Player 0: 1; Player 1: 1. Current bid: 1 of face 5 (by Player 0). Legal actions: [Call], or [Bid: q, f] with q >= 1, f >= 5, f <= 6, and not identical to the current bid (you may NOT lower the face).",
+   "obs_tail": "id: 2, 6]\n[GAME] Player 0 bids 2 of face 6.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 6 is 1, which is LESS than 2.\nPlayer 0 (the last bidder) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 1; \tPlayer 1: 2\nYour current Dice are: 3, 1\n[Player 0] [Bid: 2, 1]\n[GAME] Player 0 bids 2 of face 1.\n[Player 1] [Call]\n[GAME] Player 1 calls! The actual count of face 1 is 2, which is >= 2.\nPlayer 1 (the caller) loses one die.\n[GAME] \nNew round - Remaining dice: \tPlayer 0: 1; \tPlayer 1: 1\nYour current Dice are: 1\n[Player 0] [Bid: 1, 5]\n[GAME] Player 0 bids 1 of face 5.",
+   "raw": "I have a 1, so there are no 5s in my hand. Player 0 bid 1 of face 5, but I know the actual count is 0, which is less than the bid. Calling now will cause Player 0 to lose their last die, and I win. The bid is false, and calling is the correct move.\n\n[Call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "Player 0 has 1 die remaining; likely holds a 5, since they bid 1 of face 5 and are not bluffing with a lower face. Given their pattern of high-risk bids, they probably have a 5 or 6, but 5 is most consistent with their bid.",
+    "opponent_strategy_guess": "extremely aggressive and bluff-heavy, especially on high face values (5,6) and low counts; frequently bids just above the minimum to pressure calls, often bluffing when down to 1 die; appears to be testing my call threshold.",
+    "opponent_bluff_history": [
+     {
+      "bid": "2, 5",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "1",
+      "status": "false"
+     },
+     {
+      "bid": "4, 4",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "3, 6",
+      "revealed": "4",
+      "status": "true"
+     },
+     {
+      "bid": "3, 1",
+      "revealed": "0 or 1",
+      "status": "false"
+     },
+     {
+      "bid": "2, 1",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "2, 6",
+      "revealed": "unknown",
+      "status": "pending"
+     },
+     {
+      "bid": "2, 1",
+      "revealed": "0",
+      "status": "false"
+     },
+     {
+      "bid": "1, 5",
+      "revealed": "1",
+      "status": "true"
+     }
+    ],
+    "my_plan": "Call the bid: Player 0 bid 1 of face 5, and I have a 1, so I know the actual count of 5s is 0. Therefore, the bid is false, and calling will make Player 0 lose their last die. I win."
+   },
+   "action": "[Call]",
+   "retries": 0,
+   "forced": false
+  }
+ ]
+}
