@@ -1,0 +1,472 @@
+{
+ "pairing": "belief_vs_cot2",
+ "A": "belief",
+ "B": "cot2",
+ "game": "KuhnPoker-v0-medium",
+ "idx": 48,
+ "a_pid": 0,
+ "outcome": "A_win",
+ "payoff_A": 2,
+ "rewards": {
+  "0": 1,
+  "1": -1
+ },
+ "steps": 19,
+ "env_invalid_terminations": 0,
+ "any_forced": false,
+ "stats": {
+  "A": {
+   "turns": 9,
+   "illegal_first": 0,
+   "retries": 0,
+   "forced": 0,
+   "tokens": [
+    22796,
+    2948
+   ]
+  },
+  "B": {
+   "turns": 10,
+   "illegal_first": 0,
+   "retries": 0,
+   "forced": 0,
+   "tokens": [
+    21943,
+    3714
+   ]
+  }
+ },
+ "reason": "Player 0 won by having more chips at the end of all 9 rounds.",
+ "spent_usd_after": 3.142995520650013,
+ "turns": [
+  {
+   "step": 1,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 1. Your card: K. Chips so far: you -1, opponent -1. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "card each round (note that the cards are dealt without replacement, so you cannot have the same card as your opponent).\n- Game continues for 9 rounds\n- The player with the most chips after all rounds wins\n\nAction Rules:\n- '[check]': Pass without betting (only if no bet is on the table)\n- '[bet]': Add 1 chip to the pot (only if no bet is on the table)\n- '[call]': Match an opponent's bet by adding 1 chip to the pot\n- '[fold]': Surrender your hand and let your opponent win the pot\n\n[GAME] ### Starting round 1 out of 9 rounds. Your card is: 'K'\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "You hold the highest card (K), so betting is optimal to maximize value. Checking allows the opponent to potentially bluff or call with a weaker hand, but betting forces them to fold worse hands or call with a losing position. Since you have K and the opponent has either J or Q (50% each), betting gives you the best expected outcome.\n\n[bet]",
+   "thought": "You hold the King (K), the highest card in the deck. Since the deck is reshuffled each round and cards are dealt without replacement *within* a round, your opponent holds either the Jack (J) or Queen (Q), each with 50% probability.\n\nIn Round 1, both players have already anted 1 chip, so the pot is 2 chips. You are acting first and have two options: check or bet.\n\n- If you check, the opponent can then choose to bet or check. If they bet, you can call or fold. But since they may have J or Q, and you have K, you are always ahead in value. However, checking gives your opponent a chance to bluff (if they have J) or to bet with Q, which could lead to a suboptimal outcome.\n\n- If you bet (1 chip), you risk 1 chip to potentially win 2 (your ante + opponent\u2019s ante + your bet). Since you have the best hand (K), betting is a strong value play. It forces weaker hands (J or Q) to fold or call with a worse hand, and even if they call, you still win the pot more often.\n\nMoreover, betting establishes aggression and gives you control. Given that you have the best hand and the opponent cannot know your card, betting maximizes expected value.\n\nThus, the optimal action is to bet.",
+   "belief": null,
+   "action": "[bet]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 2,
+   "pid": 0,
+   "arm": "belief",
+   "legal": "Round 1. Your card: J. Chips so far: you -1, opponent -1. Legal actions now: [fold], [call]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "Game continues for 9 rounds\n- The player with the most chips after all rounds wins\n\nAction Rules:\n- '[check]': Pass without betting (only if no bet is on the table)\n- '[bet]': Add 1 chip to the pot (only if no bet is on the table)\n- '[call]': Match an opponent's bet by adding 1 chip to the pot\n- '[fold]': Surrender your hand and let your opponent win the pot\n\n[GAME] ### Starting round 1 out of 9 rounds. Your card is: 'J'\n[GAME] ### Starting round 1 out of 9 rounds. Your card is: 'J'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'",
+   "raw": "J is the weakest card, and opponent bet, likely trying to bluff or take the pot. Since they could have Q or K, and they're acting aggressively, calling is the best way to avoid losing a free pot while keeping options open. Folding would reward their aggression. Calling maintains pressure and lets me see their hand. [call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "Q or K (equally likely; cannot have J since you have it)",
+    "opponent_strategy_guess": "aggressive (bets early, possibly bluffing with Q or K)",
+    "opponent_bluff_history": [
+     {
+      "action": "bet",
+      "revealed": "unknown"
+     }
+    ],
+    "my_plan": "call to see opponent's hand and avoid giving free wins; J is weak but calling maintains pressure"
+   },
+   "action": "[call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 3,
+   "pid": 0,
+   "arm": "belief",
+   "legal": "Round 2. Your card: J. Chips so far: you -2, opponent 0. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "': Surrender your hand and let your opponent win the pot\n\n[GAME] ### Starting round 1 out of 9 rounds. Your card is: 'J'\n[GAME] ### Starting round 1 out of 9 rounds. Your card is: 'J'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'\n[Player 0] [call]\n[GAME] Player 0, submitted move: '[call]'.\n[GAME] Showdown: Player 1's K beats Player 0's J. Player 1 wins pot of 2 chips. Current scores: Player 0: '-1'; Player 1: '1'\n[GAME] ### Starting round 2 out of 9 rounds. Your card is: 'J'\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "I have J again, and the opponent is aggressive, likely betting with K or bluffing with Q. Since I have the worst possible hand, checking would let them bet uncontested. Betting now could bluff them into folding a Q or force a call with K, potentially winning the pot. Given the opponent\u2019s aggressive tendencies, betting is the best way to exploit their pattern. [bet]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "Q or K (equally likely; opponent has one of the two cards not held by me, and I have J)",
+    "opponent_strategy_guess": "aggressive (bets early, possibly bluffing with Q or K; likely to bet with K, possibly with Q as a bluff)",
+    "opponent_bluff_history": [
+     {
+      "action": "bet",
+      "revealed": "false"
+     }
+    ],
+    "my_plan": "bet to apply pressure; since I have J (lowest card), betting may induce bluff from Q or force fold from K, but I must be cautious\u2014opt for [bet] to exploit opponent's aggression and potentially win pot without showdown"
+   },
+   "action": "[bet]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 4,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 2. Your card: Q. Chips so far: you 0, opponent -2. Legal actions now: [fold], [call]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "GAME] ### Starting round 1 out of 9 rounds. Your card is: 'K'\n[GAME] Your available actions are: '[check]', '[bet]'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[Player 0] [call]\n[GAME] Player 0, submitted move: '[call]'.\n[GAME] Showdown: Player 1's K beats Player 0's J. Player 1 wins pot of 2 chips. Current scores: Player 0: '-1'; Player 1: '1'\n[GAME] ### Starting round 2 out of 9 rounds. Your card is: 'Q'\n[GAME] ### Starting round 2 out of 9 rounds. Your card is: 'Q'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'",
+   "raw": "You hold Q, opponent bet. Expected value of calling is +0.5 chips, folding gives 0. Calling is optimal. [call]",
+   "thought": "You hold Q in round 2. Your opponent bet, so you must decide between folding or calling. Since the deck is reshuffled each round, your opponent\u2019s card is equally likely to be J or K. \n\nIf you call:\n- If opponent has J (50% chance), you win 2 chips (pot of 2, you add 1, opponent had already bet 1).\n- If opponent has K (50% chance), you lose 1 chip (you lose the pot).\n\nExpected value of calling:  \n(0.5 \u00d7 2) + (0.5 \u00d7 -1) = 1 - 0.5 = +0.5 chips.\n\nFolding gives you 0 chips (you lose nothing but don\u2019t gain anything).\n\nSince calling has a positive expected value (+0.5), it is the better choice. Additionally, your chip count is currently 0, and opponent is at -2, meaning they are already behind. This suggests they may be bluffing or playing aggressively, but given the symmetric nature of the game and no history to inform their strategy, you should still act based on expected value.\n\nThus, calling is optimal.",
+   "belief": null,
+   "action": "[call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 5,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 3. Your card: J. Chips so far: you 1, opponent -3. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "of 2 chips. Current scores: Player 0: '-1'; Player 1: '1'\n[GAME] ### Starting round 2 out of 9 rounds. Your card is: 'Q'\n[GAME] ### Starting round 2 out of 9 rounds. Your card is: 'Q'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'\n[Player 1] [call]\n[GAME] Player 1, submitted move: '[call]'.\n[GAME] Showdown: Player 1's Q beats Player 0's J. Player 1 wins pot of 2 chips. Current scores: Player 0: '-2'; Player 1: '2'\n[GAME] ### Starting round 3 out of 9 rounds. Your card is: 'J'\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "You hold J, the weakest card. Opponent holds Q or K, each with 50% chance. Betting is a bluff, but since both Q and K beat J, opponent will always call. Betting leads to a guaranteed loss of 1 chip. Checking avoids this loss. Even if opponent bets after your check, you\u2019ll still have to call, but you can\u2019t avoid that. Checking is the only way to minimize loss. Best action: check.\n\n[check]",
+   "thought": "You hold J, the lowest card. The opponent holds either Q or K, each with 50% probability a priori. Since the deck is reshuffled each round, past hands don\u2019t inform current card distribution.\n\nIn this round, you are facing a decision: check or bet. \n\nIf you check, the opponent may bet (since they can hold Q or K), and you\u2019d then face a fold or call decision. But with J, you\u2019re weak: you\u2019ll lose to Q and K. So checking risks being forced into a call with a losing hand.\n\nIf you bet, you\u2019re bluffing. The opponent holds Q or K. If they hold Q, they\u2019ll likely call (Q beats J). If they hold K, they\u2019ll definitely call. So your bet will be called 100% of the time, and you\u2019ll lose. But you\u2019re risking 1 chip to win 2 (if opponent folds), which is +1 expected value if they fold.\n\nBut since the opponent has Q or K, and both are stronger than J, they will never fold to a bet. So bet leads to a guaranteed loss.\n\nTherefore, check is the only rational choice. It avoids losing an extra chip. You\u2019ll likely be forced to call if the opponent bets, but you have no better option. \n\nBest move: check",
+   "belief": null,
+   "action": "[check]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 6,
+   "pid": 0,
+   "arm": "belief",
+   "legal": "Round 3. Your card: K. Chips so far: you -3, opponent 1. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "] ### Starting round 2 out of 9 rounds. Your card is: 'J'\n[GAME] Your available actions are: '[check]', '[bet]'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[Player 1] [call]\n[GAME] Player 1, submitted move: '[call]'.\n[GAME] Showdown: Player 1's Q beats Player 0's J. Player 1 wins pot of 2 chips. Current scores: Player 0: '-2'; Player 1: '2'\n[GAME] ### Starting round 3 out of 9 rounds. Your card is: 'K'\n[GAME] ### Starting round 3 out of 9 rounds. Your card is: 'K'\n[Player 1] [check]\n[GAME] Player 1, submitted move: '[check]'.\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "With a K, I have the strongest hand. My opponent checked, which suggests they may have Q or J. Betting maximizes value against Q (likely to call) and may induce a fold from J. Given the belief that they might bluff or check with Q, betting is optimal to extract value or force mistakes. [bet]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "Q or J (since opponent didn't bet in round 3, likely not K; but could be bluffing with Q or J)",
+    "opponent_strategy_guess": "aggressive with K, possibly bluffing with Q; cautious with J; may check with Q to trap",
+    "opponent_bluff_history": [
+     {
+      "action": "bet",
+      "revealed": "false"
+     },
+     {
+      "action": "check",
+      "revealed": "unknown"
+     }
+    ],
+    "my_plan": "bet to maximize value with K; opponent may call with Q or fold with J, so betting is optimal"
+   },
+   "action": "[bet]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 7,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 3. Your card: J. Chips so far: you 1, opponent -3. Legal actions now: [fold], [call]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "is: 'Q'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'\n[Player 1] [call]\n[GAME] Player 1, submitted move: '[call]'.\n[GAME] Showdown: Player 1's Q beats Player 0's J. Player 1 wins pot of 2 chips. Current scores: Player 0: '-2'; Player 1: '2'\n[GAME] ### Starting round 3 out of 9 rounds. Your card is: 'J'\n[GAME] Your available actions are: '[check]', '[bet]'\n[Player 1] [check]\n[GAME] Player 1, submitted move: '[check]'.\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'",
+   "raw": "You have J, the lowest card. Opponent bet after your check, which could mean they have Q or K, or possibly bluffing with Q. Since the deck is reshuffled each round, past hands don't matter. You're ahead in chips (1 to -3), so losing this round is manageable. Folding loses 1 chip with no chance to win. Calling costs 1 chip but allows you to potentially win if opponent is bluffing. Given the small risk and potential reward, and the need to stay competitive, calling is correct. [call]",
+   "thought": "You hold J, the lowest card. Your opponent bet after you checked, which is standard for a strong hand (Q or K) but could be a bluff with Q (less likely). Since you have J, you cannot win unless your opponent is bluffing. However, your opponent has already shown aggression in two rounds (betting in round 1 and 2), and their current win rate is high. But crucially, in round 2, they called your bet with Q, which is consistent with their holding Q or K. Given that you have J, and the opponent has either Q or K (each equally likely), they will beat you 2/3 of the time. \n\nHowever, you are currently ahead in chips (1 vs -3), so you can afford to lose a round. Calling costs 1 chip, and if you fold, you lose 1 chip with no chance to win. Since your opponent could be bluffing with Q (especially if they are trying to balance their range), and you are not significantly behind, calling maintains your position and avoids giving free chips. \n\nMoreover, bluffing with Q is plausible for a balanced strategy. Given the opponent\u2019s consistent betting, they may be trying to extract value with strong hands, but the risk of a bluff is non-zero. \n\nThus, calling is the optimal play: it avoids unnecessary losses, keeps you in the game, and exploits potential bluffing tendencies.",
+   "belief": null,
+   "action": "[call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 8,
+   "pid": 0,
+   "arm": "belief",
+   "legal": "Round 4. Your card: Q. Chips so far: you -2, opponent 0. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "] ### Starting round 3 out of 9 rounds. Your card is: 'K'\n[GAME] ### Starting round 3 out of 9 rounds. Your card is: 'K'\n[Player 1] [check]\n[GAME] Player 1, submitted move: '[check]'.\n[GAME] Your available actions are: '[check]', '[bet]'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[Player 1] [call]\n[GAME] Player 1, submitted move: '[call]'.\n[GAME] Showdown: Player 0's K beats Player 1's J. Player 0 wins pot of 2 chips. Current scores: Player 0: '-1'; Player 1: '1'\n[GAME] ### Starting round 4 out of 9 rounds. Your card is: 'Q'\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "I have Q, which is the middle card. My opponent checked in round 3 when I had K, which suggests they might have J or K, but since they checked with a strong hand (K) in that round, they may be more likely to have J now. However, since the deck is reshuffled each round, past cards don\u2019t matter. I should bet to maximize value with Q, as it\u2019s strong enough to bet against a likely J or K. Betting applies pressure and can win the pot if they fold. I\u2019ll bet. [bet]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "likely holds J (since they checked in round 3 when I had K, and now I have Q; opponent could have J or K, but K is less likely to check with strong hand)",
+    "opponent_strategy_guess": "aggressive with K, checks with Q to trap, likely folds J; inconsistent with bluffing, but may bluff with Q occasionally",
+    "opponent_bluff_history": [
+     {
+      "action": "bet",
+      "revealed": "false"
+     },
+     {
+      "action": "check",
+      "revealed": "unknown"
+     },
+     {
+      "action": "call",
+      "revealed": "true"
+     }
+    ],
+    "my_plan": "bet to apply pressure, as I have Q (middle card) and opponent likely has J or K; betting maximizes value if they have J, and may induce fold if they have K"
+   },
+   "action": "[bet]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 9,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 4. Your card: K. Chips so far: you 0, opponent -2. Legal actions now: [fold], [call]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "Player 1] [check]\n[GAME] Player 1, submitted move: '[check]'.\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'\n[Player 1] [call]\n[GAME] Player 1, submitted move: '[call]'.\n[GAME] Showdown: Player 0's K beats Player 1's J. Player 0 wins pot of 2 chips. Current scores: Player 0: '-1'; Player 1: '1'\n[GAME] ### Starting round 4 out of 9 rounds. Your card is: 'K'\n[GAME] ### Starting round 4 out of 9 rounds. Your card is: 'K'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'",
+   "raw": "You have K, the highest card, and opponent bet. They could have J or Q, but you beat both. Folding loses a guaranteed win. Calling gains 2 chips with no risk. Opponent is behind, so they might bluff, but even if not, you win. Call to maximize value.\n\n[call]",
+   "thought": "You hold K, the strongest card. Opponent bet, so you must decide between folding or calling. Your current chip count is 1, opponent is at -1, meaning they are behind. Since the deck is reshuffled each round, past hands don\u2019t inform current probabilities \u2014 your opponent\u2019s card is equally likely to be J or Q.\n\nWith K, you have the best hand regardless of opponent\u2019s card. Folding would be a mistake, as you are guaranteed to win the pot if you call. Calling is a free chance to win 2 chips (you pay 1, gain 2), increasing your lead. Even if opponent is bluffing (which is possible), you are still ahead in equity.\n\nGiven the opponent is already behind, they may be more inclined to bluff with weaker hands. But even if not, you have the best hand. Calling maximizes expected value and maintains pressure.\n\nNo reason to fold \u2014 you are in a strong position. The optimal move is to call.",
+   "belief": null,
+   "action": "[call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 10,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 5. Your card: Q. Chips so far: you 1, opponent -3. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "of 2 chips. Current scores: Player 0: '-1'; Player 1: '1'\n[GAME] ### Starting round 4 out of 9 rounds. Your card is: 'K'\n[GAME] ### Starting round 4 out of 9 rounds. Your card is: 'K'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'\n[Player 1] [call]\n[GAME] Player 1, submitted move: '[call]'.\n[GAME] Showdown: Player 1's K beats Player 0's Q. Player 1 wins pot of 2 chips. Current scores: Player 0: '-2'; Player 1: '2'\n[GAME] ### Starting round 5 out of 9 rounds. Your card is: 'Q'\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "You hold Q, opponent is behind in chips and may be more likely to bluff or play aggressively. Betting with Q is a strong semi-bluff\u2014pressure the opponent, potentially win the pot if they fold a K, or gain value if they call with J. Checking would make you predictable and let them control the pot. Betting maintains range balance and exploits their position.  \n\n[bet]",
+   "thought": "You hold Q in round 5. Your chip count is 1, opponent is at -3, meaning they are behind and may be more inclined to bluff or play aggressively. Since the deck is reshuffled each round, your card is independent of prior rounds.\n\nWith Q, you are in the middle of the range: stronger than J, weaker than K. The opponent could have either J or K, each with 50% probability a priori.\n\nYou have two options:  \n- check: Pass without betting. This is safe but may allow the opponent to bet with a stronger hand (K) or bluff with J.  \n- bet: Take initiative. Betting with Q is a standard bluffing or semi-bluffing move, especially since you\u2019re behind in chips and the opponent is already down. It pressures them and can win the pot if they fold a K or bluff with J.\n\nGiven that you\u2019re behind in chips and the opponent is likely to be more aggressive when ahead, betting with Q is a strong strategic move. It exploits their potential over-aggression and gives you a chance to win the pot without showdown. Moreover, betting keeps your range balanced\u2014checking would make you predictable when you have Q.\n\nThus, bet is the optimal choice.",
+   "belief": null,
+   "action": "[bet]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 11,
+   "pid": 0,
+   "arm": "belief",
+   "legal": "Round 5. Your card: K. Chips so far: you -3, opponent 1. Legal actions now: [fold], [call]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "GAME] ### Starting round 4 out of 9 rounds. Your card is: 'Q'\n[GAME] Your available actions are: '[check]', '[bet]'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[Player 1] [call]\n[GAME] Player 1, submitted move: '[call]'.\n[GAME] Showdown: Player 1's K beats Player 0's Q. Player 1 wins pot of 2 chips. Current scores: Player 0: '-2'; Player 1: '2'\n[GAME] ### Starting round 5 out of 9 rounds. Your card is: 'K'\n[GAME] ### Starting round 5 out of 9 rounds. Your card is: 'K'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'",
+   "raw": "I hold K, the highest card, so I have the best hand regardless of what my opponent holds. They bet, which could be a bluff or value bet, but given their history of betting with K and checking with Q, this bet might be value-heavy. However, since I have K, calling is optimal to win the pot and maintain pressure. Folding would be a mistake. I will call.\n\n[call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "likely holds Q (since they bet with K in round 1 and 5, and Q is the only card that would make a bet with K reasonable; J is too weak to bet, so Q is most probable)",
+    "opponent_strategy_guess": "aggressive with K, checks with Q to trap, folds J; likely bluffs with Q occasionally but not consistently; shows strong tendency to bet with K and call with Q",
+    "opponent_bluff_history": [
+     {
+      "action": "bet",
+      "revealed": "false"
+     },
+     {
+      "action": "check",
+      "revealed": "unknown"
+     },
+     {
+      "action": "call",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     }
+    ],
+    "my_plan": "call to see showdown; holding K, I have the best hand if opponent has Q, and even if they have J, I still win; calling maintains pressure and avoids giving free cards"
+   },
+   "action": "[call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 12,
+   "pid": 0,
+   "arm": "belief",
+   "legal": "Round 6. Your card: Q. Chips so far: you -2, opponent 0. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "of 2 chips. Current scores: Player 0: '-2'; Player 1: '2'\n[GAME] ### Starting round 5 out of 9 rounds. Your card is: 'K'\n[GAME] ### Starting round 5 out of 9 rounds. Your card is: 'K'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'\n[Player 0] [call]\n[GAME] Player 0, submitted move: '[call]'.\n[GAME] Showdown: Player 0's K beats Player 1's Q. Player 0 wins pot of 2 chips. Current scores: Player 0: '-1'; Player 1: '1'\n[GAME] ### Starting round 6 out of 9 rounds. Your card is: 'Q'\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "I have Q, which is medium strength. Given the opponent's likely pattern of betting with K and checking with Q, they may be more inclined to call with Q or fold J. Betting now applies pressure and exploits their tendency to bet with K. Since I have Q, betting is optimal to potentially induce a fold from J or win a larger pot if they call with Q. I should bet to maximize expected value. [bet]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "likely holds K (since they bet in round 5 with K, and Q is less likely to bet aggressively here), but could hold J; Q is possible but less likely given pattern of betting with K and checking with Q in past rounds",
+    "opponent_strategy_guess": "aggressive with K, checks with Q to trap, folds J; tends to bet with K and call with Q; may bluff with Q occasionally but not consistently; shows strong tendency to bet with K and call with Q",
+    "opponent_bluff_history": [
+     {
+      "action": "bet",
+      "revealed": "false"
+     },
+     {
+      "action": "check",
+      "revealed": "unknown"
+     },
+     {
+      "action": "call",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     }
+    ],
+    "my_plan": "bet to apply pressure; since I have Q (medium strength), betting is optimal to exploit opponent's likely K-heavy betting pattern and potentially induce a fold; if called, I can still win if opponent has J, and if they fold, I win without showdown"
+   },
+   "action": "[bet]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 13,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 6. Your card: J. Chips so far: you 0, opponent -2. Legal actions now: [fold], [call]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "GAME] ### Starting round 5 out of 9 rounds. Your card is: 'Q'\n[GAME] Your available actions are: '[check]', '[bet]'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[Player 0] [call]\n[GAME] Player 0, submitted move: '[call]'.\n[GAME] Showdown: Player 0's K beats Player 1's Q. Player 0 wins pot of 2 chips. Current scores: Player 0: '-1'; Player 1: '1'\n[GAME] ### Starting round 6 out of 9 rounds. Your card is: 'J'\n[GAME] ### Starting round 6 out of 9 rounds. Your card is: 'J'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'",
+   "raw": "You hold J, opponent has bet. The deck is reshuffled each round, so no card history matters. You have the worst hand, and opponent\u2019s bet suggests strength. But folding gives them a free chip and cedes the pot. Calling costs 1 chip but keeps you in the game. Since you\u2019re already ahead in overall chips (1 to -2), losing this round is manageable. However, folding would let opponent gain an edge. With no better option, calling is the correct move to avoid giving free chips and maintain pressure. \n\n[call]",
+   "thought": "You hold J, opponent has bet. Your current chip count is 1, opponent is at -2, so you are ahead overall. However, in this round, you have the worst possible hand (J), and your opponent\u2019s bet suggests strength\u2014likely K or Q. Since the deck is reshuffled each round, past hands don\u2019t inform current card probabilities. You have no information about opponent\u2019s card, but they are betting, which is more likely with K or Q than J. \n\nCalling costs 1 chip, and you are already ahead in the game. Folding would concede the pot and let opponent gain a chip, which is risky given their aggressive behavior. However, calling with J against a bet is a bluff-catcher. The opponent may be bluffing with Q or J, but since they bet, and you have the worst hand, the odds are against you winning. \n\nStill, folding now would be a loss of 1 chip with no chance to win. Calling keeps you in the game and allows for potential reversals. Given the score is close and you\u2019re only 1 chip ahead, you should not risk falling behind further. But with J, you cannot win unless opponent is bluffing. \n\nHowever, since the opponent has bet in previous rounds with K and Q, and you\u2019ve seen them bet with K in round 5, it\u2019s likely they are betting strong hands. The probability of them holding J is low (only 1/2 chance, since you have J). So they are more likely to have K or Q. \n\nThus, calling with J is a losing proposition. But folding gives them 1 chip and you lose the pot. You have no better option. \n\nBest move: **call** \u2014 to stay competitive and avoid giving free chips, even though your hand is weak. You may lose, but folding is worse in terms of long-term strategy.",
+   "belief": null,
+   "action": "[call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 14,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 7. Your card: Q. Chips so far: you -1, opponent -1. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": " of 2 chips. Current scores: Player 0: '-1'; Player 1: '1'\n[GAME] ### Starting round 6 out of 9 rounds. Your card is: 'J'\n[GAME] ### Starting round 6 out of 9 rounds. Your card is: 'J'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'\n[Player 1] [call]\n[GAME] Player 1, submitted move: '[call]'.\n[GAME] Showdown: Player 0's Q beats Player 1's J. Player 0 wins pot of 2 chips. Current scores: Player 0: '0'; Player 1: '0'\n[GAME] ### Starting round 7 out of 9 rounds. Your card is: 'Q'\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "You hold Q, which is a medium hand. Betting with Q is a reasonable move to bluff or semi-bluff, especially since you're at a chip deficit and need to win pots. If you check, you risk missing opportunities to win uncontested with a bluff. Betting keeps your range balanced and exploits the opponent\u2019s potential to hold J (which would fold). Given the symmetry and the need to stay aggressive, betting is optimal.\n\n[bet]",
+   "thought": "You hold Q in round 7. Your chip count is -1, opponent is also at -1\u2014this is a tie. The deck is reshuffled each round, so past hands don't inform current probabilities. You have two options: check or bet.\n\nHolding Q is a medium-strength hand\u2014better than J, worse than K. Since the opponent could have either J or K with equal likelihood (a priori), you are in a tricky spot.\n\nIf you check, you risk letting the opponent bet uncontested and potentially bluff or value-bet with K, but you avoid committing a chip without a strong hand. However, checking with Q may encourage your opponent to bet more often with J (bluffing) or K (value), giving you a chance to call profitably.\n\nIf you bet, you risk being called by K (which beats you), but you can extract value from J (which loses to you). However, betting with Q is a weak value bet\u2014your opponent will only call with K, and you lose. But if they fold J, you win the pot uncontested.\n\nGiven that you're at -1 and need to win, you should consider balancing your range. Betting with Q is a reasonable bluff or semi-bluff, especially since you can induce folds from J. But calling with Q is also viable if you expect the opponent to bluff.\n\nHowever, in this symmetric situation, betting with Q is slightly better than checking\u2014it keeps your range balanced and exploits the opponent\u2019s potential bluffing with J. You\u2019re not overcommitting, and you can win pots when they have J.\n\nThus, the optimal move is to **bet**.",
+   "belief": null,
+   "action": "[bet]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 15,
+   "pid": 0,
+   "arm": "belief",
+   "legal": "Round 7. Your card: K. Chips so far: you -1, opponent -1. Legal actions now: [fold], [call]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "[GAME] ### Starting round 6 out of 9 rounds. Your card is: 'Q'\n[GAME] Your available actions are: '[check]', '[bet]'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[Player 1] [call]\n[GAME] Player 1, submitted move: '[call]'.\n[GAME] Showdown: Player 0's Q beats Player 1's J. Player 0 wins pot of 2 chips. Current scores: Player 0: '0'; Player 1: '0'\n[GAME] ### Starting round 7 out of 9 rounds. Your card is: 'K'\n[GAME] ### Starting round 7 out of 9 rounds. Your card is: 'K'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'",
+   "raw": "I have K, the highest card, and the opponent bet, which is consistent with them holding Q (as per belief block). Since I have the best possible card, calling is optimal to win the pot. Folding would be a mistake. [call]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "Player 1 likely holds Q (since they bet with K in round 5 and 7, and Q is the only card that would make their bet plausible when they don't have K; J would be too weak to bet confidently, and K would be strong enough to bet but they may not bluff with it),",
+    "opponent_strategy_guess": "aggressive with K, checks with Q to trap, folds J; tends to bet with K and call with Q; may bluff with Q occasionally but not consistently; shows strong tendency to bet with K and call with Q",
+    "opponent_bluff_history": [
+     {
+      "action": "bet",
+      "revealed": "false"
+     },
+     {
+      "action": "check",
+      "revealed": "unknown"
+     },
+     {
+      "action": "call",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     }
+    ],
+    "my_plan": "call - I have K, which beats Q and is equal to K, but since opponent bet and I have the highest card, calling is optimal to win the pot; no reason to fold given my strong card and opponent's betting pattern"
+   },
+   "action": "[call]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 16,
+   "pid": 0,
+   "arm": "belief",
+   "legal": "Round 8. Your card: K. Chips so far: you 0, opponent -2. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": " of 2 chips. Current scores: Player 0: '0'; Player 1: '0'\n[GAME] ### Starting round 7 out of 9 rounds. Your card is: 'K'\n[GAME] ### Starting round 7 out of 9 rounds. Your card is: 'K'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'\n[Player 0] [call]\n[GAME] Player 0, submitted move: '[call]'.\n[GAME] Showdown: Player 0's K beats Player 1's Q. Player 0 wins pot of 2 chips. Current scores: Player 0: '1'; Player 1: '-1'\n[GAME] ### Starting round 8 out of 9 rounds. Your card is: 'K'\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "You have K, opponent likely has Q (based on their betting pattern and your belief block). They checked in round 7, which aligns with holding Q and trying to trap. In round 8, they haven\u2019t acted yet. With K, you should bet to extract value from Q, which will call. Checking risks missing value. Bet to maximize expected gain.\n\n[bet]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "Q (since opponent bet in round 8 and K is held by me, opponent must have Q; J is impossible as they would likely fold to a bet with J)",
+    "opponent_strategy_guess": "aggressive with K, checks with Q to trap, folds J; tends to bet with K and call with Q; may bluff with Q occasionally but not consistently; shows strong tendency to bet with K and call with Q",
+    "opponent_bluff_history": [
+     {
+      "action": "bet",
+      "revealed": "false"
+     },
+     {
+      "action": "check",
+      "revealed": "unknown"
+     },
+     {
+      "action": "call",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     }
+    ],
+    "my_plan": "bet to maximize value with K, knowing opponent likely has Q and will call; aim to win pot and build chip lead"
+   },
+   "action": "[bet]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 17,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 8. Your card: J. Chips so far: you -2, opponent 0. Legal actions now: [fold], [call]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "GAME] ### Starting round 7 out of 9 rounds. Your card is: 'Q'\n[GAME] Your available actions are: '[check]', '[bet]'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[Player 0] [call]\n[GAME] Player 0, submitted move: '[call]'.\n[GAME] Showdown: Player 0's K beats Player 1's Q. Player 0 wins pot of 2 chips. Current scores: Player 0: '1'; Player 1: '-1'\n[GAME] ### Starting round 8 out of 9 rounds. Your card is: 'J'\n[GAME] ### Starting round 8 out of 9 rounds. Your card is: 'J'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'",
+   "raw": "You hold J, opponent has bet. You are behind by 2 chips with one round left. Your card is the lowest, so you cannot win unless opponent is bluffing. But opponent has bet every round, including when they held K (which they won), and Q (which they also won). Their consistent aggression suggests they may be betting strong hands, but they could also be bluffing with Q. However, since you have no way to know their current card, and you are always behind with J, calling is a losing move. Folding avoids further loss and preserves your chance to win in the final round. The optimal move is to fold.\n\n[fold]",
+   "thought": "You hold J, opponent has bet. Your current chip count is -2, opponent is at 0. You are behind, but only by 2 chips with one round left. The deck is reshuffled each round, so past cards are irrelevant\u2014your opponent\u2019s current card is equally likely to be Q or K.\n\nYou are holding the lowest card (J), so you cannot win unless your opponent bluffs. However, your opponent has bet in every round so far, including round 7 when they held K and won. Their betting pattern suggests aggression, but they may also be bluffing with Q or K.\n\nGiven that you are behind and only one round remains, folding now would mean losing the game unless you win the final round. Calling costs 1 chip but gives you a chance to win the game if you draw a better card in round 9. However, you must evaluate the risk.\n\nSince you have no information about the current hand, and your opponent has consistently bet, they may be bluffing with Q or playing strong with K. But with J, you are always behind if they have K, and only tie if they have Q (but Q beats J). So you cannot win this hand.\n\nTherefore, calling is a losing proposition in expectation. Folding is the correct choice to minimize loss, preserving your ability to win in the final round.\n\n**Decision: fold**",
+   "belief": null,
+   "action": "[fold]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 18,
+   "pid": 1,
+   "arm": "cot2",
+   "legal": "Round 9. Your card: K. Chips so far: you -3, opponent 1. Legal actions now: [check], [bet]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": " Player 0's K beats Player 1's Q. Player 0 wins pot of 2 chips. Current scores: Player 0: '1'; Player 1: '-1'\n[GAME] ### Starting round 8 out of 9 rounds. Your card is: 'J'\n[GAME] ### Starting round 8 out of 9 rounds. Your card is: 'J'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'\n[Player 1] [fold]\n[GAME] Player 1, submitted move: '[fold]'.\n[GAME] Player 1 has folded. Current scores: Player 0: '2'; Player 1: '-2'\n[GAME] ### Starting round 9 out of 9 rounds. Your card is: 'K'\n[GAME] Your available actions are: '[check]', '[bet]'",
+   "raw": "You hold K, the highest card, and are behind in chips (-2 vs +2). Betting maximizes your chance to win the pot and reverse the score. Since your opponent has either Q or J (equally likely), betting forces them to fold a weaker hand or call with a worse one. Checking loses the opportunity to gain chips with your strong hand. Betting is the optimal play.\n\n[bet]",
+   "thought": "You hold K in round 9, the highest card. Your opponent has either Q or J, each equally likely. The score is critical: you are at -2, opponent at +2. You need to win this round to tie or potentially overtake.\n\nSince your card is strong (K), and you're behind in chips, you should maximize value. Betting is optimal here because:\n- If you check, you risk losing the round without a chance to gain chips.\n- Betting forces your opponent to fold a weaker hand (Q or J) or call with a worse hand, giving you a chance to win the pot.\n\nEven though your opponent may have been aggressive earlier, their actions don\u2019t inform current hand probabilities due to reshuffling. With K, you have the best possible hand. Betting maximizes expected value by extracting chips when they have Q or J.\n\nMoreover, since you\u2019re behind, you must take risks. Folding would be a mistake\u2014your hand is strong, and you need to win this round. Checking gives no benefit and allows your opponent to win uncontested if they check back.\n\nThus, bet is the correct move to capitalize on your strong hand and attempt to reverse the score.",
+   "belief": null,
+   "action": "[bet]",
+   "retries": 0,
+   "forced": false
+  },
+  {
+   "step": 19,
+   "pid": 0,
+   "arm": "belief",
+   "legal": "Round 9. Your card: J. Chips so far: you 1, opponent -3. Legal actions now: [fold], [call]\nNOTE: the 3-card deck (J, Q, K) is reshuffled at the start of EVERY round. Cards seen in past rounds say NOTHING about the current hands: the opponent holds one of the two cards you do not hold, each equally likely a priori.",
+   "obs_tail": "ips. Current scores: Player 0: '1'; Player 1: '-1'\n[GAME] ### Starting round 8 out of 9 rounds. Your card is: 'K'\n[GAME] Your available actions are: '[check]', '[bet]'\n[Player 0] [bet]\n[GAME] Player 0, submitted move: '[bet]'.\n[Player 1] [fold]\n[GAME] Player 1, submitted move: '[fold]'.\n[GAME] Player 1 has folded. Current scores: Player 0: '2'; Player 1: '-2'\n[GAME] ### Starting round 9 out of 9 rounds. Your card is: 'J'\n[GAME] ### Starting round 9 out of 9 rounds. Your card is: 'J'\n[Player 1] [bet]\n[GAME] Player 1, submitted move: '[bet]'.\n[GAME] Your available actions are: '[fold]', '[call]'",
+   "raw": "You have J, opponent has either Q or K. They bet, which is consistent with their aggressive strategy\u2014especially with K. But they might also bluff with Q occasionally. However, given their history of betting with K and calling with Q, a bet from them is more likely to be strong (K) than a bluff (Q). You have the worst hand (J), so calling risks losing another chip. But folding means you lose the pot outright. Given your current chip lead (you're at +2, opponent at -2), you can afford to lose this round. Still, since the opponent's bet is likely strong (K), calling with J is risky. The best move is to fold and preserve your lead.\n\n[fold]",
+   "thought": null,
+   "belief": {
+    "opponent_likely_hidden_info": "unknown (new round, re-dealt)",
+    "opponent_strategy_guess": "aggressive with K, checks with Q to trap, folds J; tends to bet with K and call with Q; may bluff with Q occasionally but not consistently; shows strong tendency to bet with K and call with Q",
+    "opponent_bluff_history": [
+     {
+      "action": "bet",
+      "revealed": "false"
+     },
+     {
+      "action": "check",
+      "revealed": "unknown"
+     },
+     {
+      "action": "call",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     },
+     {
+      "action": "bet",
+      "revealed": "true"
+     }
+    ],
+    "my_plan": ""
+   },
+   "action": "[fold]",
+   "retries": 0,
+   "forced": false
+  }
+ ]
+}
