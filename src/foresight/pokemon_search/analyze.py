@@ -1,7 +1,7 @@
 """Aggregate results.jsonl + decision logs + spend into a markdown table."""
 import json, math, os, statistics as st, sys
 from collections import defaultdict
-sys.path.insert(0, "/Users/sickle/Coding/jev-context-research/pilots")
+sys.path.insert(0, "/Users/sickle/Coding/aaai-27/experiments/pilots")
 import jevlib as J
 
 HERE = os.path.dirname(os.path.abspath(__file__))

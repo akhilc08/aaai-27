@@ -9,30 +9,35 @@ ENV_FILE = "/Users/sickle/Coding/context-research/.env"
 HERE = os.path.dirname(os.path.abspath(__file__))
 SPEND_LOG = os.path.join(HERE, "spend.jsonl")
 JEV = "typesafe/jev-1.13"
+JEV_BACKEND = os.environ.get("JEV_BACKEND", "openrouter")  # set JEV_BACKEND=vercel to use Vercel AI Gateway
 CHEAP = "qwen/qwen3-30b-a3b-instruct-2507"  # cheap LLM baseline used across pilots
 _lock = threading.Lock()
 
 
+ENV_FILES = [ENV_FILE, "/Users/sickle/Coding/aaai-27/.env"]  # keys only; never printed
+
+
 def _load_env():
-    if "OPENROUTER_API_KEY" in os.environ:
-        return
-    with open(ENV_FILE) as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith("#") and "=" in line:
-                k, v = line.split("=", 1)
-                os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+    for path in ENV_FILES:
+        if not os.path.exists(path):
+            continue
+        with open(path) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
 
 _load_env()
 KEY = os.environ["OPENROUTER_API_KEY"]
 
 
-def _post(url, body, timeout=120, retries=6):
+def _post(url, body, timeout=120, retries=6, key=None):
     data = json.dumps(body).encode()
     for i in range(retries):
         req = urllib.request.Request(url, data=data, headers={
-            "Authorization": "Bearer " + KEY, "Content-Type": "application/json"})
+            "Authorization": "Bearer " + (key or KEY), "Content-Type": "application/json"})
         try:
             return json.load(urllib.request.urlopen(req, context=_SSL, timeout=timeout))
         except urllib.error.HTTPError as e:
@@ -53,7 +58,7 @@ def _log(tag, model, cost):
         f.write(json.dumps({"t": time.time(), "tag": tag, "model": model, "cost": cost}) + "\n")
 
 
-GLOBAL_CAP = 24.50  # hard stop on total pilot spend across all processes (user budget is $25)
+GLOBAL_CAP = 33.25  # hard stop: $15.50 spent at 2026-09-26 + $8 + $10 user top-up, minus margin
 _cache = {"t": 0.0, "total": 0.0}
 
 
@@ -71,6 +76,13 @@ def jev(state, questions, tag="jev"):
     choice criteria = {option: description}; score criteria = [ordered labels].
     Returns the answers dict, e.g. answers[name]["noul"] or ["probabilities"]."""
     _check_cap()
+    if JEV_BACKEND == "vercel":
+        r = _post("https://ai-gateway.vercel.sh/typesafe/v1/systemone",
+                  {"model": "typesafe-ai/jev", "state": state, "questions": questions},
+                  key=os.environ["AI_GATEWAY_API_KEY"])
+        u = r.get("usage") or {}
+        _log(tag, "vercel:typesafe-ai/jev", u.get("cost") or 0.042e-6 * u.get("input_tokens", 0))
+        return r["answers"]
     r = _post("https://openrouter.ai/api/alpha/decisions",
               {"model": JEV, "state": state, "questions": questions})
     _log(tag, JEV, (r.get("usage") or {}).get("cost", 0))

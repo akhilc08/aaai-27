@@ -1,7 +1,7 @@
 """Probe: is Jev's weak P(win) due to missing Pokemon knowledge or to not reading the state?
 (1) HP-only variants of real positions; (2) type-effectiveness quiz; (3) the same HP variants with names stripped."""
 import copy, pickle, sys, json
-sys.path.insert(0, "."); sys.path.insert(0, "/Users/sickle/Coding/jev-context-research/pilots")
+sys.path.insert(0, "."); sys.path.insert(0, "/Users/sickle/Coding/aaai-27/experiments/pilots")
 import model as Mo, jevlib as J
 
 S = [x[0] for x in pickle.load(open("data/c_states.pkl", "rb"))]

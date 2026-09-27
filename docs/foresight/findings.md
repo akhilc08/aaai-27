@@ -11,7 +11,7 @@ As of 2026-09-26. Goal: an AAAI-27 student abstract (deadline 2026-09-28 AoE) bu
 - **Cannot be fine-tuned.** The workaround used in every pilot: ask several narrow questions and train a small logistic regression "head" on the answers.
 - **Laya** (github.com/NandhaKishorM/laya) is an open-source Jev clone (421M ModernBERT) that can be fine-tuned. It installs with pip and runs on the M5 Mac at about 60 ms per call. It scores near chance until fine-tuned. Not used in the pilots.
 
-Example call (see `pilots/jevlib.py`):
+Example call (see `experiments/pilots/jevlib.py`):
 
 ```python
 import jevlib as J
@@ -35,7 +35,7 @@ J.jev("You are in a kitchen. The fridge is closed. Action: open fridge.",
 
 ## 3. Pilot results
 
-Each pilot has full details in `pilots/<name>/RESULT.md`. Total API spend: $12.71.
+Each pilot has full details in `RESULT.md` in each pilot folder. Total API spend: $12.71.
 
 | Pilot | Verdict | One-line finding |
 | --- | --- | --- |
@@ -102,12 +102,14 @@ Jev cannot look ahead by itself; each call judges one situation. Lookahead needs
 
 ## 6. Files
 
-- `pilots/jevlib.py`: shared helper for Jev and cheap-LLM calls, with retries, spend logging, and a hard spend cap (`GLOBAL_CAP`).
-- `pilots/spend.jsonl`: every API call's cost.
-- `pilots/<name>/`: scripts, raw outputs (`*.jsonl`), analysis files, and `RESULT.md` for each pilot.
-- `docs/aaai27-track-notes.md`: AAAI-27 student abstract track rules and what gets accepted.
+Paths are relative to the `aaai-27` repo.
 
-**Not copied (re-downloadable):** ALFWorld game files, the SWE-agent trajectory shards, PokerBench data, and the per-pilot virtual environments. The originals remain in `aaai-27/experiments/pilots/`.
+- `experiments/pilots/jevlib.py`: shared helper for Jev and cheap-LLM calls, with retries, spend logging, and a hard spend cap (`GLOBAL_CAP`).
+- `experiments/pilots/spend.jsonl`: every API call's cost.
+- `experiments/pilots/<name>/`: scripts, raw outputs (`*.jsonl`), analysis files, and `RESULT.md` for the forecasting pilots (imagination_planning, pokemon, poker).
+- `src/foresight/`: the Pokémon lookahead code (`pokemon_search`, `local_forecaster`).
+- `docs/aaai27-student-abstract-research.md`: AAAI-27 student abstract track rules and what gets accepted.
+- Elsewhere: `compaction_failure` lives in the `jev-context-research` repo; `agent_failure`, `pre_run` and `swarm` live in `aaai-27-ideas/experiments/jev-pilots/`.
 
 **API key:** `jevlib.py` reads the OpenRouter key from `/Users/sickle/Coding/context-research/.env`. No key is stored in this folder.
 
@@ -144,7 +146,7 @@ Web search only; not exhaustive. Verdict: the parts are known, the combination a
 
 ## 9. Pokémon lookahead pilot result (2026-09-26)
 
-Full details: `pilots/pokemon_search/RESULT.md`. Local Showdown server; real AbyssalPlayer from the PokéChamp repo, gen8 random battle, dynamax off. Expectimax over an approximate simulator, pruned to 90% probability mass, one batched Jev call per tree level. Hidden-team sampling was not built.
+Full details: `src/foresight/pokemon_search/RESULT.md`. Local Showdown server; real AbyssalPlayer from the PokéChamp repo, gen8 random battle, dynamax off. Expectimax over an approximate simulator, pruned to 90% probability mass, one batched Jev call per tree level. Hidden-team sampling was not built.
 
 | Arm | vs SimpleHeuristics (gen9) | vs Abyssal (gen8) |
 | --- | --- | --- |
@@ -166,7 +168,7 @@ Verdict: not promising for "Jev as a search evaluator wins games"; mixed for Jev
 
 ### 9b. Formatted-state round and knowledge probe
 
-- **Knowledge probe** (`pilots/pokemon_search/probe_knowledge.py`): Jev scored 16/20 on a type-matchup quiz (immunities 6/6), so the failure is not pure lack of Pokémon knowledge. With full Pokémon text, a crushing lead raised P(win) only 0.52 to 0.66; with names stripped, 0.89.
+- **Knowledge probe** (`src/foresight/pokemon_search/probe_knowledge.py`): Jev scored 16/20 on a type-matchup quiz (immunities 6/6), so the failure is not pure lack of Pokémon knowledge. With full Pokémon text, a crushing lead raised P(win) only 0.52 to 0.66; with names stripped, 0.89.
 - **Formatter** (`fmt.py`): positions rendered as precomputed facts (HP and units, who moves first, best-attack damage and KO, one-on-one race, safe switches). Offline P(win): orig 0.52, ahead 0.87, behind 0.13. The "are we ahead?" question alone gives 0.98 / 0.02.
 - **Battles:** depth-2 expectimax with the formatted Jev P(win) leaf won 9/60 = 15% (CI 8-25) vs SimpleHeuristics, against 66% for the HP-balance leaf.
 - **Real positions** (1,905 turns, base rate 0.17): every Jev forecast variant has worse Brier than the base rate (P(win) 0.197, "ahead" 0.163, base 0.143). AUROC 0.76-0.79.

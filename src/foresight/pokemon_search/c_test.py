@@ -3,7 +3,7 @@ to the end of the battle (both sides' actions sampled from Jev choice probabilit
 one Jev call per simulated turn across all rollouts). Compared with option B (P(win) noul leaf) on the same states."""
 import asyncio, json, os, pickle, random, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, "/Users/sickle/Coding/jev-context-research/pilots")
+sys.path.insert(0, "/Users/sickle/Coding/aaai-27/experiments/pilots")
 import jevlib as J
 import model as Mo
 import search as Se
