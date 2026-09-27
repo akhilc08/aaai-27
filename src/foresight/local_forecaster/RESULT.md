@@ -149,3 +149,75 @@ Latency, single process, ms per opponent forecast:
     20:38 queue stopped by user request; B2 (running) will be recorded when it finishes; no further jobs
     21:19 end B2 layah8_hp_d2 :: 53/100 this batch; pooled with the day run 113/200
 <!-- NIGHT:END -->
+
+## Autoresearch (overnight 2026-09-26/27; loop in `autoresearch/`, spec `autoresearch/program.md`)
+
+One job at a time, peak about 4.7 GB, zero API spend, no LLMs. The dev opponent is SimpleHeuristicsPlayer (gen8, no Dynamax). The held-out opponent is PokéChamp's Abyssal (gen8, PokéChamp protocol, 20-battle chunks). CIs are 95% Wilson.
+
+### Bottom line
+- **Lookahead depth is a large, solid effect on the held-out opponent.** Going from depth 1 to depth 2 adds 13-20 points with every opponent model (table below; n = 1000 per cell for the free models). Depth 1 (about 42%) is close to PokéChamp's published One-Step Lookahead (44%), a sanity check on the protocol.
+- **The loop's kept changes did not transfer.** The final strategy (switch cost 0.02 plus forecast temperature 0.3) is 45.0% on dev (131/291) vs 41.2% for the baseline (66/160), which is not significant. On the held-out Abyssal test it scores 52.5% [45.6-59.3] (n=200), vs 56.5% [49.6-63.2] (n=200) for the baseline. There is no held-out gain.
+- **Forecast accuracy does not convert into wins at depth 2.** On Abyssal's real moves (1,963 turns), Laya is 75.4% top-1 and the free damage-softmax heuristic is 48.9%. With the same search, the heuristic model still plays at least as well (58.4% vs 52.5%), and even a uniform opponent model reaches 55.5%. The bottleneck is elsewhere: the approximate simulator and leaf, and shallow depth (depth 3 hurts, see below).
+
+### Held-out and measurement runs vs Abyssal
+All runs use the final strategy file; only the opponent model or depth varies. None of these results was used to choose a strategy.
+
+| opponent model | depth 1 | depth 2 | depth 3 |
+|---|---|---|---|
+| Laya (gen8-trained), final strategy | 40/119 = 33.6% [25.8-42.5] | **105/200 = 52.5% [45.6-59.3]** (held-out test) | — (too slow) |
+| free damage-softmax heuristic | 424/1000 = 42.4% [39.4-45.5] | 584/1000 = 58.4% [55.3-61.4] | 518/1000 = 51.8% [48.7-54.9] |
+| uniform | 422/1000 = 42.2% [39.2-45.3] | 555/1000 = 55.5% [52.4-58.6] | — |
+| *reference:* Laya baseline strategy (day and overnight runs) | — | 113/200 = 56.5% [49.6-63.2] | — |
+
+- **Laya depth 1** stopped at 119 games: 100 in the first run, then 19 before the Abyssal process crashed inside a battle. The crash was a PokéChamp `AttributeError: 'NoneType' object has no attribute 'boosts'` in `_stat_estimation`, and the chunk then hung. The run was killed at wrap-up. A planned temperature-1.0 heuristic run never started.
+- **Speed.** The Laya arms take about 1.9 s per turn on average (p95 about 3 s). The free opponent models take under 0.05 s per turn, so 1000 games of those take 8-14 minutes.
+
+### Dev curve (screen 80, confirm 80; keep if pooled beats best by >= 3)
+| exp | idea | dev result | status | best so far |
+|---|---|---|---|---|
+| 000 | baseline (headline config) | 66/160 = 41.2% | keep | 41.2 |
+| 001 | depth 3, heuristic opponent at the 3rd ply | 24/80 = 30.0% | discard | 41.2 |
+| 002 | leaf + alive, status and matchup terms | 32/80 = 40.0% | discard | 41.2 |
+| 003 | root switch cost 0.02 | 71/160 = 44.4% | keep | 44.4 |
+| 004 | + forecast temperature 0.5 | 39/80 = 48.8% | discard (below screen bar) | 44.4 |
+| 005 | + minimax blend 0.3 | 32/80 = 40.0% | discard | 44.4 |
+| 006 | + forecast temperature 0.3 | 79/160 = 49.4% | keep | 49.4 |
+| 007 | + adaptive depth 3 (<= 30 forecasts) | 32/67, timed out | fail | 49.4 |
+| 008 | + our actions kept at depth 1: 2 -> 4 | 37/80 = 46.3% | discard | 49.4 |
+| 009 | temperature 0.15 | 35/80 = 43.8% | discard | 49.4 |
+| 010 | switch cost 0.04 | 32/80 = 40.0% | discard | 49.4 |
+| M3 | 131 more games of 006 | 52/131 = 39.7% | measurement | 006 pooled = 131/291 = **45.0%** |
+
+**Winner's curse.** Exp 006's 49.4% came from being picked as the best of several noisy screens. With more games it fell to 45.0%.
+
+**Fast knob sweeps.** These used the free heuristic opponent model on dev, with 600-1500 games per setting (details in `autoresearch/notes.md`). No leaf or search knob changed the win rate by more than about 2.5 points: alive, status, matchup and boost terms; `OUR_K`; wider opponent and chance pruning; switch cost. Two things did matter: depth 1 vs 2 (30.0% vs 43.5%), and forecast sharpening (39.2% at temperature 1.0 vs 43.5% at 0.3). On dev, the opponent model itself mattered only a little: Laya 45.0% (n=291), heuristic 43.5-44.2%, uniform 42.5%.
+
+### Best strategy vs baseline (diff, behaviour only)
+`autoresearch/snapshots/final_heldout_strategy.py` (identical to `exp_006_strategy.py`) differs from `exp_000_strategy.py` in two active settings:
+- `SWITCH_COST = 0.02`: 0.08 on the 0-4 Q scale is subtracted from each of our voluntary switches at the root. It stands in for entry hazards and lost tempo, which the simulator doesn't model.
+- `OPP_TEMP = 0.3`: Laya's opponent distribution is sharpened (p^(1/0.3), renormalised) before pruning and expectation.
+
+All other added knobs are off by default, and with them at their defaults the file matches the baseline's choices and Q-values on 249/249 logged states (`check_equiv.py`).
+
+### Full `autoresearch/results.tsv`
+```
+exp	dev_wins	dev_n	dev_rate	status	p95_turn_s	description
+000	66	160	0.4125	keep	3.72	baseline: depth-2 expectimax, gen8 Laya opp, HP leaf (screen 34/80, confirm 32/80)
+001	24	80	0.3000	discard	3.70	depth 3: Laya forecasts at levels 0-1, damage-softmax heuristic at level 2
+002	32	80	0.4000	discard	4.13	leaf + 0.3 per Pokemon alive + status penalties + 0.3 active matchup
+003	71	160	0.4437	keep	3.72	root switch cost 0.02 (screen 38/80, confirm 33/80)
+004	39	80	0.4875	discard	3.08	best + opponent forecast temperature 0.5 (sharper)
+005	32	80	0.4000	discard	3.51	best + minimax blend lambda 0.3
+006	79	160	0.4938	keep	2.67	switch cost + opponent forecast temperature 0.3 (screen 41/80, confirm 38/80)
+007	32	67	0.4776	fail	5.64	best + adaptive depth 3 when the extra ply needs <=30 forecasts (hit 30-min timeout at 67 games)
+008	37	80	0.4625	discard	2.79	best + our actions kept at depth 1 widened 2 -> 4
+009	35	80	0.4375	discard	2.58	best with forecast temperature 0.15 instead of 0.3
+010	32	80	0.4000	discard	2.60	best with switch cost 0.04 instead of 0.02
+M1u	170	400	0.4250	measure	0.01	measurement: best (006) with a uniform opponent model instead of Laya
+M2h	174	400	0.4350	measure	0.01	measurement: best (006) with the free damage-softmax heuristic opponent model
+M3best	52	131	0.3969	measure	2.72	measurement: 160 more games of best (006), hit 30-min cap at 131; pooled with 006 = 131/291 = 45.0%
+```
+
+### What this means for the abstract (honest)
+- **Supported.** An engine-style depth-2 expectimax with a small, fast, non-LLM opponent forecaster beats one-step play by 13-20 points against Abyssal, and lands on par with PokéLLMon (56%). It runs at about 2 s per turn on a laptop with no API cost.
+- **Not supported.** The claim that more accurate or calibrated forecasts improve play. Laya is much more accurate than the heuristic (75% vs 49% top-1), yet plays no better, and a uniform model is within about 3 points. Depth 3 is worse than depth 2 in this simulator.

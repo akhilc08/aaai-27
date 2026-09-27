@@ -16,7 +16,7 @@ This is an AAAI-27 student-abstract project. The deadline is 2026-09-28 AoE.
 - `/Users/sickle/Coding/aaai-27/src/foresight/local_forecaster/autoresearch/program.md` holds the loop spec and the rules. It is authoritative; follow it.
 - `/Users/sickle/Coding/aaai-27/src/foresight/local_forecaster/RESULT.md` holds all results so far, including the "Overnight batch" section.
 - `/Users/sickle/Coding/aaai-27/docs/foresight/findings.md` holds the project history and the idea as the user defined it (sections 8 and 9).
-- `/Users/sickle/Coding/aaai-27/docs/paper/paper.tex` and `paper.pdf` are the current 2-page draft. Don't edit the paper tonight.
+- `/Users/sickle/Coding/aaai-27/paper/paper.tex` and `paper.pdf` are the current 2-page draft. Don't edit the paper tonight.
 
 **Key numbers.** Win rates are against Abyssal, Gen 8 random battles without Dynamax, under PokéChamp's protocol:
 

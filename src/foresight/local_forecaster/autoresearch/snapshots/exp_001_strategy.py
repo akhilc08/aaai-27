@@ -13,14 +13,13 @@ import model as Mo
 import search as Se   # only Node and HeurEval are reused (unchanged helpers)
 
 # ---------------- search shape ----------------
-DEPTH = 2
+DEPTH = 3
 MODE = "exp"                      # "exp" expectimax, "min" minimax over kept opponent replies
 MM_LAMBDA = 0.0                   # with MODE "exp": value = (1-l) * expectation + l * worst kept reply
 OUR_K = 2                         # our actions kept at depth >= 1 (free heuristic prior)
-LAYA_LEVELS = 99                  # opponent forecasts from Laya at levels < this; free damage-softmax heuristic below
+LAYA_LEVELS = 2                  # opponent forecasts from Laya at levels < this; free damage-softmax heuristic below
 DEEP_EXTRA = 0                    # extra plies when the root has at most DEEP_IF_ACTS actions (0 = off)
 DEEP_IF_ACTS = 0
-SWITCH_COST = 0.02                 # subtracted from the root Q of our voluntary switches, in leaf units (x4 scale)
 OPP_MASS, OPP_CAP, OPP_CAP_DEEP = 0.9, 3, 2
 CHANCE_ROOT, CHANCE_DEEP = (0.9, 4), (0.75, 2)
 
@@ -59,7 +58,7 @@ def leaf_value(s, root=None):
 
 
 # ---------------- use of the opponent forecasts ----------------
-OPP_TEMP = 0.3                    # extra temperature on Laya's opponent distribution (1 = as calibrated)
+OPP_TEMP = 1.0                    # extra temperature on Laya's opponent distribution (1 = as calibrated)
 SW_FLOOR = 0.0                    # minimum total probability mass on opponent switches (spread evenly), 0 = off
 
 
@@ -191,11 +190,9 @@ def choose(root_state, root_actions, forced, ev):
                 qs.append(e if not MM_LAMBDA else (1 - MM_LAMBDA) * e + MM_LAMBDA * min(v for _, v in per_b))
             else:
                 qs.append(min(v for _, v in per_b))
-        if n is root:
-            if SWITCH_COST and not n.forced:
-                qs = [q - 4.0 * SWITCH_COST if a[0] == "s" else q for q, a in zip(qs, n.ours)]
-            stats["q"] = [round(x, 3) for x in qs]
         n.val = max(qs)
+        if n is root:
+            stats["q"] = [round(x, 3) for x in qs]
         return n.val
 
     backup(root)

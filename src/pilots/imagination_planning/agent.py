@@ -1,6 +1,6 @@
 """Shared LLM ReAct-style agent pieces for ALFWorld."""
 import os, re, sys
-sys.path.insert(0, "/Users/sickle/Coding/aaai-27/experiments/pilots")
+sys.path.insert(0, "/Users/sickle/Coding/aaai-27/src/pilots")
 import jevlib as J
 TAG = "imagination_planning"
 

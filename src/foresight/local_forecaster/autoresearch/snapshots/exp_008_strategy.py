@@ -16,7 +16,7 @@ import search as Se   # only Node and HeurEval are reused (unchanged helpers)
 DEPTH = 2
 MODE = "exp"                      # "exp" expectimax, "min" minimax over kept opponent replies
 MM_LAMBDA = 0.0                   # with MODE "exp": value = (1-l) * expectation + l * worst kept reply
-OUR_K = 2                         # our actions kept at depth >= 1 (free heuristic prior)
+OUR_K = 4                         # our actions kept at depth >= 1 (free heuristic prior)
 LAYA_LEVELS = 99                  # opponent forecasts from Laya at levels < this; free damage-softmax heuristic below
 DEEP_EXTRA = 0                    # extra plies when the root has at most DEEP_IF_ACTS actions (0 = off)
 DEEP_IF_ACTS = 0

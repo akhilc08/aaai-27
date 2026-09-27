@@ -1,7 +1,7 @@
 """Parse PokerBench test instructions into structured spots; sample ~400 pre + ~600 post; write data/spots.jsonl."""
 import re, json, random, glob, ast, csv
 from datasets import load_dataset
-D = "/Users/sickle/Coding/aaai-27/experiments/pilots/poker/data"
+D = "/Users/sickle/Coding/aaai-27/src/pilots/poker/data"
 R = {"Two": "2", "Three": "3", "Four": "4", "Five": "5", "Six": "6", "Seven": "7", "Eight": "8", "Nine": "9",
      "Ten": "T", "Jack": "J", "Queen": "Q", "King": "K", "Ace": "A"}
 RV = {r: i for i, r in enumerate("23456789TJQKA", 2)}

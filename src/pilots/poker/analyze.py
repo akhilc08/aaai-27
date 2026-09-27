@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import f1_score
-P = "/Users/sickle/Coding/aaai-27/experiments/pilots/poker/"
+P = "/Users/sickle/Coding/aaai-27/src/pilots/poker/"
 C = ["fold", "check", "call", "bet", "raise"]
 RV = {r: i for i, r in enumerate("23456789TJQKA", 2)}
 POS = ["UTG", "HJ", "CO", "BTN", "SB", "BB"]

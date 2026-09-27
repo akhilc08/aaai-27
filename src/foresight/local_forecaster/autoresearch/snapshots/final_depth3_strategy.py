@@ -13,7 +13,7 @@ import model as Mo
 import search as Se   # only Node and HeurEval are reused (unchanged helpers)
 
 # ---------------- search shape ----------------
-DEPTH = 2
+DEPTH = 3
 MODE = "exp"                      # "exp" expectimax, "min" minimax over kept opponent replies
 MM_LAMBDA = 0.0                   # with MODE "exp": value = (1-l) * expectation + l * worst kept reply
 OUR_K = 2                         # our actions kept at depth >= 1 (free heuristic prior)

@@ -20,7 +20,7 @@ OUR_K = 2                         # our actions kept at depth >= 1 (free heurist
 LAYA_LEVELS = 99                  # opponent forecasts from Laya at levels < this; free damage-softmax heuristic below
 DEEP_EXTRA = 0                    # extra plies when the root has at most DEEP_IF_ACTS actions (0 = off)
 DEEP_IF_ACTS = 0
-SWITCH_COST = 0.02                 # subtracted from the root Q of our voluntary switches, in leaf units (x4 scale)
+SWITCH_COST = 0.04                 # subtracted from the root Q of our voluntary switches, in leaf units (x4 scale)
 OPP_MASS, OPP_CAP, OPP_CAP_DEEP = 0.9, 3, 2
 CHANCE_ROOT, CHANCE_DEEP = (0.9, 4), (0.75, 2)
 

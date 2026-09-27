@@ -1,7 +1,7 @@
 """Jev zero-shot choice over legal actions + 9 narrow noul questions, one call per spot -> jev.jsonl."""
 import sys, json, time
-sys.path.insert(0, "/Users/sickle/Coding/aaai-27/experiments/pilots"); import jevlib as J
-P = "/Users/sickle/Coding/aaai-27/experiments/pilots/poker/"
+sys.path.insert(0, "/Users/sickle/Coding/aaai-27/src/pilots"); import jevlib as J
+P = "/Users/sickle/Coding/aaai-27/src/pilots/poker/"
 DESC = {"fold": "fold: give up the hand", "call": "call: match the current bet",
         "raise": "raise: put in more chips than the current bet (re-raise / open-raise / all in)",
         "check": "check: pass without betting", "bet": "bet: put chips in when no one has bet yet"}

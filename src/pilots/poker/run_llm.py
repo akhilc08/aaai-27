@@ -1,7 +1,7 @@
 """Cheap LLM (qwen3-30b-a3b-instruct) with the dataset's own prompt on 200 spots (80 pre, 120 post) -> llm.jsonl."""
 import sys, json, time, random
-sys.path.insert(0, "/Users/sickle/Coding/aaai-27/experiments/pilots"); import jevlib as J
-P = "/Users/sickle/Coding/aaai-27/experiments/pilots/poker/"
+sys.path.insert(0, "/Users/sickle/Coding/aaai-27/src/pilots"); import jevlib as J
+P = "/Users/sickle/Coding/aaai-27/src/pilots/poker/"
 
 def one(r):
     t = time.time()

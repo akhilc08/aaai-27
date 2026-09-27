@@ -1,5 +1,5 @@
 import json, random, re, sys
-sys.path.insert(0, "/Users/sickle/Coding/aaai-27/experiments/pilots"); import jevlib as J
+sys.path.insert(0, "/Users/sickle/Coding/aaai-27/src/pilots"); import jevlib as J
 TAG = "pokemon"
 
 def mon_str(d, active=False, boosts=None):

@@ -12,7 +12,7 @@ import hist_live as HL
 from build_ds import cand_feats, opp_label_idx
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-LOGS = "/Users/sickle/Coding/aaai-27/experiments/pilots/pokemon/data/logs"  # Jev pokemon pilot, read-only
+LOGS = "/Users/sickle/Coding/aaai-27/src/pilots/pokemon/data/logs"  # Jev pokemon pilot, read-only
 log = logging.getLogger("h"); log.setLevel(logging.ERROR)
 
 

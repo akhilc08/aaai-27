@@ -2,7 +2,7 @@
 Opponent nodes: evaluator gives P(opponent action); chance nodes: model.step probabilities.
 Leaves scored in [0,4] by the evaluator. Every level issues ONE batched evaluator request."""
 import json, math, re, sys, threading, time
-sys.path.insert(0, "/Users/sickle/Coding/aaai-27/experiments/pilots")
+sys.path.insert(0, "/Users/sickle/Coding/aaai-27/src/pilots")
 import jevlib as J
 import model as Mo
 import fmt as F

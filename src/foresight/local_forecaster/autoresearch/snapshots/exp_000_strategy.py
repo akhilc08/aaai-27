@@ -15,64 +15,24 @@ import search as Se   # only Node and HeurEval are reused (unchanged helpers)
 # ---------------- search shape ----------------
 DEPTH = 2
 MODE = "exp"                      # "exp" expectimax, "min" minimax over kept opponent replies
-MM_LAMBDA = 0.0                   # with MODE "exp": value = (1-l) * expectation + l * worst kept reply
 OUR_K = 2                         # our actions kept at depth >= 1 (free heuristic prior)
-LAYA_LEVELS = 99                  # opponent forecasts from Laya at levels < this; free damage-softmax heuristic below
-DEEP_EXTRA = 0                    # extra plies when the root has at most DEEP_IF_ACTS actions (0 = off)
-DEEP_IF_ACTS = 0
-SWITCH_COST = 0.02                 # subtracted from the root Q of our voluntary switches, in leaf units (x4 scale)
 OPP_MASS, OPP_CAP, OPP_CAP_DEEP = 0.9, 3, 2
 CHANCE_ROOT, CHANCE_DEEP = (0.9, 4), (0.75, 2)
 
 
 # ---------------- leaf evaluation: state -> value in [0, 1] (our POV) ----------------
-ALIVE_W = 0.0                     # bonus per Pokemon still alive (in units of one full HP bar)
-STATUS_W = 0.0                    # scales the per-status effective-HP penalty below
-STATUS_PEN = {"slp": 0.35, "frz": 0.45, "par": 0.25, "brn": 0.15, "tox": 0.2, "psn": 0.1}
-BOOST_W = 0.0                     # value per positive offensive/speed boost stage of the active Pokemon (x its HP)
-MATCH_W = 0.0                     # weight of the active-vs-active matchup term (model.matchup)
-
-
-def mon_val(m):
-    if m.hp <= 0:
-        return 0.0
-    return m.hp * (1.0 - STATUS_W * STATUS_PEN.get(m.status, 0.0)) + ALIVE_W
-
-
-def boost_val(m):
-    if m.hp <= 0 or not m.boosts:
-        return 0.0
-    b = sum(max(-2, min(3, m.boosts.get(k, 0))) for k in ("atk", "spa", "spe"))
-    return b * m.hp
-
-
 def leaf_value(s, root=None):
     t = s.terminal()
     if t is not None:
         return t
-    d = sum(mon_val(m) for m in s.sides[0]) - sum(mon_val(m) for m in s.sides[1])
-    if BOOST_W:
-        d += BOOST_W * (boost_val(s.active(0)) - boost_val(s.active(1)))
-    if MATCH_W:
-        d += MATCH_W * (Mo.matchup(s, 0, s.act[0]) - Mo.matchup(s, 1, s.act[1]))
-    return min(1.0, max(0.0, 0.5 + d / (12.0 * (1.0 + ALIVE_W))))
+    d = sum(m.hp for m in s.sides[0]) - sum(m.hp for m in s.sides[1])
+    return 0.5 + d / 12.0
 
 
 # ---------------- use of the opponent forecasts ----------------
-OPP_TEMP = 0.3                    # extra temperature on Laya's opponent distribution (1 = as calibrated)
-SW_FLOOR = 0.0                    # minimum total probability mass on opponent switches (spread evenly), 0 = off
-
-
 def opp_post(probs, s, acts):
     """Post-process Laya's opponent-action distribution (identity in the baseline)."""
-    p = probs
-    if OPP_TEMP != 1.0:
-        p = np.power(np.clip(p, 1e-9, 1), 1.0 / OPP_TEMP); p = p / p.sum()
-    if SW_FLOOR:
-        sw = np.array([a[0] == "s" for a in acts])
-        if sw.any() and p[sw].sum() < SW_FLOOR:
-            p = p.copy(); p[~sw] *= (1 - SW_FLOOR) / max(p[~sw].sum(), 1e-9); p[sw] = SW_FLOOR / sw.sum()
-    return p
+    return probs
 
 
 class StratEv:
@@ -112,7 +72,7 @@ def prune(dist, mass, cap):
 
 
 def choose(root_state, root_actions, forced, ev):
-    depth = DEPTH + (DEEP_EXTRA if DEEP_EXTRA and len(root_actions) <= DEEP_IF_ACTS else 0)
+    depth = DEPTH
     root = Se.Node(root_state, depth)
     root.forced = forced
     frontier, stats = [root], {"nodes": 0, "leaves": 0, "policy_q": 0, "levels": 0, "depth": depth}
@@ -125,10 +85,7 @@ def choose(root_state, root_actions, forced, ev):
             reqs.append((n.s, 1, Mo.actions(n.s, 1), None)); owners.append((n, 1))
             if level > 0 and len(Mo.actions(n.s, 0)) > OUR_K:
                 heur_reqs.append((n.s, 0, Mo.actions(n.s, 0), None)); heur_owners.append((n, 0))
-        if level < LAYA_LEVELS:
-            pols, _ = ev.run(reqs, []) if reqs else ([], [])
-        else:
-            pols, _ = Se.HeurEval().run(reqs, []) if reqs else ([], [])
+        pols, _ = ev.run(reqs, []) if reqs else ([], [])
         stats["policy_q"] += len(reqs)
         pri = {}
         for (n, side), p in zip(owners, pols):
@@ -186,16 +143,10 @@ def choose(root_state, root_actions, forced, ev):
         qs = []
         for ai in range(len(n.ours)):
             per_b = [(pb, sum(p * backup(c) for p, c in n.kids[(ai, bi)])) for bi, (_, pb) in enumerate(n.opp)]
-            if MODE == "exp":
-                e = sum(pb * v for pb, v in per_b)
-                qs.append(e if not MM_LAMBDA else (1 - MM_LAMBDA) * e + MM_LAMBDA * min(v for _, v in per_b))
-            else:
-                qs.append(min(v for _, v in per_b))
-        if n is root:
-            if SWITCH_COST and not n.forced:
-                qs = [q - 4.0 * SWITCH_COST if a[0] == "s" else q for q, a in zip(qs, n.ours)]
-            stats["q"] = [round(x, 3) for x in qs]
+            qs.append(sum(pb * v for pb, v in per_b) if MODE == "exp" else min(v for _, v in per_b))
         n.val = max(qs)
+        if n is root:
+            stats["q"] = [round(x, 3) for x in qs]
         return n.val
 
     backup(root)

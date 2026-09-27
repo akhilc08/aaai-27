@@ -1,7 +1,7 @@
 """Offline check: the HP-variant probe (orig / ahead / behind) on the saved states, using the formatted-facts state.
 Same variants as probe_knowledge.py. Also records the narrow nouls."""
 import copy, json, pickle, statistics as st, sys
-sys.path.insert(0, "."); sys.path.insert(0, "/Users/sickle/Coding/aaai-27/experiments/pilots")
+sys.path.insert(0, "."); sys.path.insert(0, "/Users/sickle/Coding/aaai-27/src/pilots")
 import jevlib as J, fmt as F
 
 S = [x[0] for x in pickle.load(open("data/c_states.pkl", "rb"))]

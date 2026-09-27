@@ -20,6 +20,7 @@ OUR_K = 2                         # our actions kept at depth >= 1 (free heurist
 LAYA_LEVELS = 99                  # opponent forecasts from Laya at levels < this; free damage-softmax heuristic below
 DEEP_EXTRA = 0                    # extra plies when the root has at most DEEP_IF_ACTS actions (0 = off)
 DEEP_IF_ACTS = 0
+DEEP_BUDGET = 30                   # >0: search one ply deeper than DEPTH, but only if that ply needs <= this many forecasts
 SWITCH_COST = 0.02                 # subtracted from the root Q of our voluntary switches, in leaf units (x4 scale)
 OPP_MASS, OPP_CAP, OPP_CAP_DEEP = 0.9, 3, 2
 CHANCE_ROOT, CHANCE_DEEP = (0.9, 4), (0.75, 2)
@@ -112,7 +113,7 @@ def prune(dist, mass, cap):
 
 
 def choose(root_state, root_actions, forced, ev):
-    depth = DEPTH + (DEEP_EXTRA if DEEP_EXTRA and len(root_actions) <= DEEP_IF_ACTS else 0)
+    depth = DEPTH + (DEEP_EXTRA if DEEP_EXTRA and len(root_actions) <= DEEP_IF_ACTS else 0) + (1 if DEEP_BUDGET else 0)
     root = Se.Node(root_state, depth)
     root.forced = forced
     frontier, stats = [root], {"nodes": 0, "leaves": 0, "policy_q": 0, "levels": 0, "depth": depth}
@@ -125,6 +126,8 @@ def choose(root_state, root_actions, forced, ev):
             reqs.append((n.s, 1, Mo.actions(n.s, 1), None)); owners.append((n, 1))
             if level > 0 and len(Mo.actions(n.s, 0)) > OUR_K:
                 heur_reqs.append((n.s, 0, Mo.actions(n.s, 0), None)); heur_owners.append((n, 0))
+        if DEEP_BUDGET and level == depth - 1 and len(reqs) > DEEP_BUDGET:
+            break                         # too many forecasts for the extra ply: frontier stays as depth-(depth-1) leaves
         if level < LAYA_LEVELS:
             pols, _ = ev.run(reqs, []) if reqs else ([], [])
         else:

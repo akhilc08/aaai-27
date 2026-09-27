@@ -207,7 +207,7 @@ Sorted by weekend feasibility. Cost assumes a mid-tier or open-weight model via 
 
 ## 6c. Pilot results (2026-09-26)
 
-All runs used cheap Chinese models via OpenRouter. Total spend $12.54. Code and logs are in `src/experiments/`.
+All runs used cheap Chinese models via OpenRouter. Total spend $12.54. Code and logs are now in the `aaai-27-ideas` repo.
 
 **ALFWorld predict-then-act (lead candidate).** All 134 unseen games, temperature 0, max 30 steps.
 

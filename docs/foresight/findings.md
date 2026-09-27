@@ -11,7 +11,7 @@ As of 2026-09-26. Goal: an AAAI-27 student abstract (deadline 2026-09-28 AoE) bu
 - **Cannot be fine-tuned.** The workaround used in every pilot: ask several narrow questions and train a small logistic regression "head" on the answers.
 - **Laya** (github.com/NandhaKishorM/laya) is an open-source Jev clone (421M ModernBERT) that can be fine-tuned. It installs with pip and runs on the M5 Mac at about 60 ms per call. It scores near chance until fine-tuned. Not used in the pilots.
 
-Example call (see `experiments/pilots/jevlib.py`):
+Example call (see `src/pilots/jevlib.py`):
 
 ```python
 import jevlib as J
@@ -104,9 +104,9 @@ Jev cannot look ahead by itself; each call judges one situation. Lookahead needs
 
 Paths are relative to the `aaai-27` repo.
 
-- `experiments/pilots/jevlib.py`: shared helper for Jev and cheap-LLM calls, with retries, spend logging, and a hard spend cap (`GLOBAL_CAP`).
-- `experiments/pilots/spend.jsonl`: every API call's cost.
-- `experiments/pilots/<name>/`: scripts, raw outputs (`*.jsonl`), analysis files, and `RESULT.md` for the forecasting pilots (imagination_planning, pokemon, poker).
+- `src/pilots/jevlib.py`: shared helper for Jev and cheap-LLM calls, with retries, spend logging, and a hard spend cap (`GLOBAL_CAP`).
+- `src/pilots/spend.jsonl`: every API call's cost.
+- `src/pilots/<name>/`: scripts, raw outputs (`*.jsonl`), analysis files, and `RESULT.md` for the forecasting pilots (imagination_planning, pokemon, poker).
 - `src/foresight/`: the Pokémon lookahead code (`pokemon_search`, `local_forecaster`).
 - `docs/aaai27-student-abstract-research.md`: AAAI-27 student abstract track rules and what gets accepted.
 - Elsewhere: `compaction_failure` lives in the `jev-context-research` repo; `agent_failure`, `pre_run` and `swarm` live in `aaai-27-ideas/experiments/jev-pilots/`.

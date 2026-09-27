@@ -59,7 +59,7 @@ def leaf_value(s, root=None):
 
 
 # ---------------- use of the opponent forecasts ----------------
-OPP_TEMP = 0.3                    # extra temperature on Laya's opponent distribution (1 = as calibrated)
+OPP_TEMP = 1.0                    # extra temperature on Laya's opponent distribution (1 = as calibrated)
 SW_FLOOR = 0.0                    # minimum total probability mass on opponent switches (spread evenly), 0 = off
 
 
