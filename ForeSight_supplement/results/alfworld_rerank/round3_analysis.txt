@@ -1,0 +1,28 @@
+| comparison | success | n | McNemar (x-only:y-only) | per-game diff, cluster-bootstrap 95% CI | Wilcoxon per-game p |
+|---|---|---|---|---|---|
+| qwen3-30b, 3 seeds (seed 2 partial) | B 0.484 vs D 0.346 | 370 units / 134 games | 64:13, p=0.0000 | +0.129 [+0.067, +0.192] | 0.0001 |
+| qwen3-30b | B 0.485 vs V 0.412 | 369 units / 134 games | 53:26, p=0.0032 | +0.068 [+0.014, +0.123] | 0.0190 |
+| qwen3-30b | C 0.478 vs B 0.484 | 370 units / 134 games | 25:27, p=0.8899 | -0.006 [-0.046, +0.034] | 0.9632 |
+| qwen3-235b, all seeds | B 0.545 vs D 0.493 | 402 units / 134 games | 51:30, p=0.0257 | +0.052 [-0.007, +0.112] | 0.1033 |
+| Jev alone vs 30b D (seed 0) | J 0.403 vs D 0.343 | 134 units / 134 games | 30:22, p=0.3317 | +0.060 [-0.045, +0.164] | 0.2673 |
+| Jev alone vs 30b B (seed 0) | J 0.403 vs B 0.485 | 134 units / 134 games | 23:34, p=0.1849 | -0.082 [-0.187, +0.030] | 0.1451 |
+| rule vs 30b D (seed 0) | R 0.396 vs D 0.343 | 134 units / 134 games | 14:7, p=0.1892 | +0.052 [-0.015, +0.119] | 0.1266 |
+| 30b B vs rule (seed 0) | B 0.485 vs R 0.396 | 134 units / 134 games | 20:8, p=0.0357 | +0.090 [+0.015, +0.164] | 0.0233 |
+J: 54/134, steps 23.1, override 0.000, jev calls/ep 23.1, llm calls/ep 0.0
+R: 53/134, steps 22.8, override 0.141, jev calls/ep 0.0, llm calls/ep 22.8
+strong seed 0 D: 69/134
+strong seed 0 B: 74/134
+strong seed 1 D: 68/134
+strong seed 1 B: 70/134
+strong seed 2 D: 61/134
+strong seed 2 B: 75/134
+overrides 6267/15822 steps = 0.396
+  LLM #1 repeats a past action, Jev picks a new one: 991 (15.8% of overrides)
+  LLM #1 interaction, Jev picks 'go': 692 (11.0% of overrides)
+  Jev picks a repeat, LLM #1 was new: 488 (7.8% of overrides)
+  LLM #1 is examine/look/inventory (no-op-ish): 469 (7.5% of overrides)
+  LLM #1 'go', Jev picks object interaction: 187 (3.0% of overrides)
+top verb transitions (LLM#1 -> Jev): [('go -> go', 4757), ('open -> go', 306), ('examine -> look', 197), ('examine -> go', 172), ('take -> go', 120), ('use -> look', 117), ('use -> examine', 71), ('go -> move', 51)]
+go->go overrides, (LLM#1 dest has target, Jev dest has target): {(False, False): 4372, (False, True): 272, (True, False): 94, (True, True): 4}
+go->go overrides, (LLM#1 dest visited before, Jev dest visited before): {(False, False): 2190, (False, True): 224, (True, True): 1543, (True, False): 800}
+top receptacle-type swaps (LLM#1 -> Jev): [(('cabinet', 'cabinet'), 1268), (('cabinet', 'drawer'), 775), (('cabinet', 'shelf'), 556), (('shelf', 'shelf'), 356), (('fridge', 'cabinet'), 220), (('cabinet', 'countertop'), 203), (('shelf', 'drawer'), 199), (('sinkbasin', 'cabinet'), 108), (('drawer', 'drawer'), 91), (('drawer', 'shelf'), 86)]

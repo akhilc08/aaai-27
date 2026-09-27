@@ -1,0 +1,15 @@
+exp	dev_wins	dev_n	dev_rate	status	p95_turn_s	description
+000	66	160	0.4125	keep	3.72	baseline: depth-2 expectimax, gen8 Laya opp, HP leaf (screen 34/80, confirm 32/80)
+001	24	80	0.3000	discard	3.70	depth 3: Laya forecasts at levels 0-1, damage-softmax heuristic at level 2
+002	32	80	0.4000	discard	4.13	leaf + 0.3 per Pokemon alive + status penalties + 0.3 active matchup
+003	71	160	0.4437	keep	3.72	root switch cost 0.02 (screen 38/80, confirm 33/80)
+004	39	80	0.4875	discard	3.08	best + opponent forecast temperature 0.5 (sharper)
+005	32	80	0.4000	discard	3.51	best + minimax blend lambda 0.3
+006	79	160	0.4938	keep	2.67	switch cost + opponent forecast temperature 0.3 (screen 41/80, confirm 38/80)
+007	32	67	0.4776	fail	5.64	best + adaptive depth 3 when the extra ply needs <=30 forecasts (hit 30-min timeout at 67 games)
+008	37	80	0.4625	discard	2.79	best + our actions kept at depth 1 widened 2 -> 4
+009	35	80	0.4375	discard	2.58	best with forecast temperature 0.15 instead of 0.3
+010	32	80	0.4000	discard	2.60	best with switch cost 0.04 instead of 0.02
+M1u	170	400	0.4250	measure	0.01	measurement: best (006) with a uniform opponent model instead of Laya
+M2h	174	400	0.4350	measure	0.01	measurement: best (006) with the free damage-softmax heuristic opponent model
+M3best	52	131	0.3969	measure	2.72	measurement: 160 more games of best (006), hit 30-min cap at 131; pooled with 006 = 131/291 = 45.0%
